@@ -1,13 +1,8 @@
-package net.microsoft.java.web.jdbc;
+package net.microsoft.java.web.foundational.jdbc;
 
-import net.microsoft.java.web.foundational.dao.Dao;
-import net.microsoft.java.web.foundational.dao.impl.StatementDaoImpl;
-import net.microsoft.java.web.foundational.entity.User;
 import org.testng.annotations.Test;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.List;
 
 
 /**
@@ -96,34 +91,5 @@ public class JDBCTest {
     public void testClassLoader() {
         Class<JDBCTest> jdbcTestClass = JDBCTest.class;
         System.out.println(jdbcTestClass);
-    }
-
-    @Test
-    public void testStatementDaoInsertImpl() {
-        Dao dao = new StatementDaoImpl();
-        User user = new User();
-        user.setName("Kez");
-        user.setPassword("1111111");
-        dao.insert(user);
-
-    }
-
-    @Test
-    public void testStatementDaoDeleteImpl() {
-        Dao dao = new StatementDaoImpl();
-        User user = new User();
-        user.setName("Kez");
-        System.out.println(dao.delete(user));
-    }
-
-    @Test
-    public void testStatementSelectImpl() {
-        Dao dao = new StatementDaoImpl();
-        User userd = new User();
-        userd.setId(1);
-        final List<User> selectUser = dao.select(userd);
-        for (User user : selectUser) {
-            System.out.println(user);
-        }
     }
 }
