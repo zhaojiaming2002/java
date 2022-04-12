@@ -1,12 +1,11 @@
 package net.microsoft.java.web.jdbc;
 
 import net.microsoft.java.web.foundational.dao.Dao;
-import net.microsoft.java.web.foundational.dao.impl.StatementDaoImpl;
+import net.microsoft.java.web.foundational.dao.impl.StatementDaoImplV1;
 import net.microsoft.java.web.foundational.entity.User;
 import org.testng.annotations.Test;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -100,7 +99,7 @@ public class JDBCTest {
 
     @Test
     public void testStatementDaoInsertImpl() {
-        Dao dao = new StatementDaoImpl();
+        Dao dao = new StatementDaoImplV1();
         User user = new User();
         user.setName("Kez");
         user.setPassword("1111111");
@@ -110,7 +109,7 @@ public class JDBCTest {
 
     @Test
     public void testStatementDaoDeleteImpl() {
-        Dao dao = new StatementDaoImpl();
+        Dao dao = new StatementDaoImplV1();
         User user = new User();
         user.setName("Kez");
         System.out.println(dao.delete(user));
@@ -118,7 +117,7 @@ public class JDBCTest {
 
     @Test
     public void testStatementSelectImpl() {
-        Dao dao = new StatementDaoImpl();
+        Dao dao = new StatementDaoImplV1();
         User userd = new User();
         userd.setId(1);
         final List<User> selectUser = dao.select(userd);

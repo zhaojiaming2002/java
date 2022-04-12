@@ -15,7 +15,7 @@ import java.util.List;
  * @author:Suche
  **/
 
-public class StatementDaoImpl implements Dao {
+public class StatementDaoImplV1 implements Dao {
 
     static String quotes = "'";
     static String comma = ",";
@@ -24,6 +24,7 @@ public class StatementDaoImpl implements Dao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            // 不用这个因为会创建二次对象
             DriverManager.registerDriver(new Driver());
 
         } catch (Exception e) {
