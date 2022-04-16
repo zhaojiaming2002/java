@@ -10,10 +10,8 @@ import java.util.List;
  * @author:Suche
  **/
 
-public interface Dao {
-    String url = "jdbc:mysql://localhost:3306/jdbc";
-    String userName = "root";
-    String userPassword = "123456";
+public interface UserDao {
+
 
     int insert(User user);
 
@@ -22,5 +20,6 @@ public interface Dao {
 
     List<User> select(User user);
 
+    int update(User user);
 
 }

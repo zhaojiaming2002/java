@@ -1,12 +1,12 @@
 package net.microsoft.java.web.foundational.dao.impl;
 
 import com.mysql.cj.jdbc.Driver;
-import net.microsoft.java.web.foundational.dao.Dao;
+import net.microsoft.java.web.foundational.dao.UserDao;
 import net.microsoft.java.web.foundational.entity.User;
+import net.microsoft.java.web.foundational.util.JDBCUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
  * @author:Suche
  **/
 
-public class StatementDaoImplV1 implements Dao {
+public class StatementUserDaoImplV1 implements UserDao {
 
     static String quotes = "'";
     static String comma = ",";
@@ -37,7 +37,7 @@ public class StatementDaoImplV1 implements Dao {
 
         String sql = "insert into jdbc_user values(null," + quotes + user.getName() + quotes + comma + quotes + user.getPassword() + quotes + comma + "now(),now()" + ")";
         try (
-                Connection connection = DriverManager.getConnection(url, userName, userPassword);
+                Connection connection = JDBCUtil.getConnection();
                 Statement statement = connection.createStatement();
 
         ) {
@@ -56,7 +56,7 @@ public class StatementDaoImplV1 implements Dao {
     public int delete(User user) {
         String sql = null;
         try (
-                Connection connection = DriverManager.getConnection(url, userName, userPassword);
+                Connection connection =JDBCUtil.getConnection();
                 Statement statement = connection.createStatement()
         ) {
             if (user.getId() != null && user != null) {
@@ -85,7 +85,7 @@ public class StatementDaoImplV1 implements Dao {
         String sql = null;
         List<User> userList = new ArrayList<>();
         try (
-                final Connection connection = DriverManager.getConnection(url, userName, userPassword);
+                final Connection connection = JDBCUtil.getConnection();
                 final Statement statement = connection.createStatement()
         ) {
             if (user == null) {
@@ -131,5 +131,10 @@ public class StatementDaoImplV1 implements Dao {
         }
 
         return null;
+    }
+
+    @Override
+    public int update(User user) {
+        return 0;
     }
 }

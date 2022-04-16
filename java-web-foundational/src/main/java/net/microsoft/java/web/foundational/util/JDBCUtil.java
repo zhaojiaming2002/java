@@ -29,10 +29,10 @@ public final class JDBCUtil {
             url = (String) properties.get("jdbc.url");
             password = (String) properties.get("jdbc.password");
             driver = (String) properties.get("jdbc.driver");
-            System.out.println(url);
-            System.out.println(user);
-            System.out.println(password);
-            System.out.println(driver);
+//            System.out.println(url);
+//            System.out.println(user);
+//            System.out.println(password);
+//            System.out.println(driver);
         } catch (Exception e) {
             e.printStackTrace();
         }

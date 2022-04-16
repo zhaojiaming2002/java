@@ -1,7 +1,7 @@
 package net.microsoft.java.web.jdbc;
 
-import net.microsoft.java.web.foundational.dao.Dao;
-import net.microsoft.java.web.foundational.dao.impl.StatementDaoImplV1;
+import net.microsoft.java.web.foundational.dao.UserDao;
+import net.microsoft.java.web.foundational.dao.impl.StatementUserDaoImplV1;
 import net.microsoft.java.web.foundational.entity.User;
 import org.testng.annotations.Test;
 
@@ -99,28 +99,28 @@ public class JDBCTest {
 
     @Test
     public void testStatementDaoInsertImpl() {
-        Dao dao = new StatementDaoImplV1();
+        UserDao userDao = new StatementUserDaoImplV1();
         User user = new User();
         user.setName("Kez");
         user.setPassword("1111111");
-        dao.insert(user);
+        userDao.insert(user);
 
     }
 
     @Test
     public void testStatementDaoDeleteImpl() {
-        Dao dao = new StatementDaoImplV1();
+        UserDao userDao = new StatementUserDaoImplV1();
         User user = new User();
         user.setName("Kez");
-        System.out.println(dao.delete(user));
+        System.out.println(userDao.delete(user));
     }
 
     @Test
     public void testStatementSelectImpl() {
-        Dao dao = new StatementDaoImplV1();
+        UserDao userDao = new StatementUserDaoImplV1();
         User userd = new User();
         userd.setId(1);
-        final List<User> selectUser = dao.select(userd);
+        final List<User> selectUser = userDao.select(userd);
         for (User user : selectUser) {
             System.out.println(user);
         }
