@@ -2,9 +2,7 @@ package net.microsoft.java.web.foundational.util;
 
 import java.io.InputStreamReader;
 import java.net.ConnectException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 /**
@@ -55,5 +53,24 @@ public final class JDBCUtil {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public static void release(ResultSet resultSet, Statement statement, Connection connection) {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

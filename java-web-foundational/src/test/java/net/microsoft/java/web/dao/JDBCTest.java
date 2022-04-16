@@ -1,4 +1,4 @@
-package net.microsoft.java.web.foundational.dao;
+package net.microsoft.java.web.dao;
 
 import org.testng.annotations.Test;
 

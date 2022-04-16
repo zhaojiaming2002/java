@@ -10,11 +10,37 @@ import java.sql.Timestamp;
  **/
 
 public class Account {
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", balance=" + balance +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                '}';
+    }
+
+    /**
+     * 用户id
+     */
     private Integer id;
+    /**
+     * 用户名
+     */
     private String name;
+    /**
+     * 账户余额/交易金额
+     */
     private BigDecimal balance;
 
+    /**
+     * 创建日期
+     */
     private Timestamp createDate;
+    /**
+     * 更新日期
+     */
     private Timestamp updateDate;
 
     public Account() {
