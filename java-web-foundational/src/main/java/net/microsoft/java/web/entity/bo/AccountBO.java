@@ -1,4 +1,4 @@
-package net.microsoft.java.web.foundational.entity.bo;
+package net.microsoft.java.web.entity.bo;
 
 import java.math.BigDecimal;
 

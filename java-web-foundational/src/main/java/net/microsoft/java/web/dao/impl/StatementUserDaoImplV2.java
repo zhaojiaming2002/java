@@ -1,8 +1,8 @@
 package net.microsoft.java.web.dao.impl;
 
 import net.microsoft.java.web.dao.UserDao;
-import net.microsoft.java.web.foundational.entity.User;
-import net.microsoft.java.web.foundational.util.JDBCUtil;
+import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.util.JDBCUtil;
 
 import java.sql.*;
 import java.util.ArrayList;

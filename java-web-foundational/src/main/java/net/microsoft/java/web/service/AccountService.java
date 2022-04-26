@@ -1,7 +1,7 @@
-package net.microsoft.java.web.foundational.service;
+package net.microsoft.java.web.service;
 
-import net.microsoft.java.web.foundational.entity.Account;
-import net.microsoft.java.web.foundational.entity.bo.AccountBO;
+import net.microsoft.java.web.entity.Account;
+import net.microsoft.java.web.entity.bo.AccountBO;
 
 /**
  * @description:AccountService业务逻辑层

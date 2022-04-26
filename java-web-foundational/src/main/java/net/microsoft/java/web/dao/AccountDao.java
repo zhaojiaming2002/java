@@ -1,8 +1,7 @@
 package net.microsoft.java.web.dao;
 
-import net.microsoft.java.web.foundational.entity.Account;
-import net.microsoft.java.web.foundational.entity.User;
-import net.microsoft.java.web.foundational.entity.bo.AccountBO;
+import net.microsoft.java.web.entity.Account;
+import net.microsoft.java.web.entity.bo.AccountBO;
 
 import java.util.List;
 

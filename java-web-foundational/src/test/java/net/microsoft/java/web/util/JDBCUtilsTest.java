@@ -1,6 +1,5 @@
 package net.microsoft.java.web.util;
 
-import net.microsoft.java.web.foundational.util.JDBCUtil;
 import org.testng.annotations.Test;
 
 /**

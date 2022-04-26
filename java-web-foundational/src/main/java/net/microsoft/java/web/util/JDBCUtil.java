@@ -1,7 +1,5 @@
-package net.microsoft.java.web.foundational.util;
+package net.microsoft.java.web.util;
 
-import java.io.InputStreamReader;
-import java.net.ConnectException;
 import java.sql.*;
 import java.util.Properties;
 
@@ -17,7 +15,6 @@ public final class JDBCUtil {
     static String user = null;
     static String password = null;
     static String driver = null;
-
 
     static {
         Properties properties = new Properties();

@@ -1,6 +1,6 @@
-package net.microsoft.java.web.foundational.service;
+package net.microsoft.java.web.service;
 
-import net.microsoft.java.web.foundational.entity.User;
+import net.microsoft.java.web.entity.User;
 
 /**
  * @description:User业务逻辑层

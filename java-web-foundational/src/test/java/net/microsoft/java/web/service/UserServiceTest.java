@@ -1,8 +1,7 @@
 package net.microsoft.java.web.service;
 
-import net.microsoft.java.web.foundational.entity.User;
-import net.microsoft.java.web.foundational.service.UserService;
-import net.microsoft.java.web.foundational.service.impl.UserServiceImpl;
+import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.service.impl.UserServiceImpl;
 import org.testng.annotations.Test;
 
 /**

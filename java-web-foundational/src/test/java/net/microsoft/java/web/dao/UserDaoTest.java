@@ -1,7 +1,7 @@
 package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.dao.impl.PreparedStatementUserDaoImpl;
-import net.microsoft.java.web.foundational.entity.User;
+import net.microsoft.java.web.entity.User;
 import org.testng.annotations.Test;
 
 import java.sql.Timestamp;

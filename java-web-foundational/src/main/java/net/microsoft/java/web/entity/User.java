@@ -1,4 +1,4 @@
-package net.microsoft.java.web.foundational.entity;
+package net.microsoft.java.web.entity;
 
 import java.sql.Timestamp;
 

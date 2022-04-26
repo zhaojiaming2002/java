@@ -2,7 +2,7 @@ package net.microsoft.java.web.jdbc;
 
 import net.microsoft.java.web.dao.UserDao;
 import net.microsoft.java.web.dao.impl.StatementUserDaoImplV1;
-import net.microsoft.java.web.foundational.entity.User;
+import net.microsoft.java.web.entity.User;
 import org.testng.annotations.Test;
 
 import java.sql.*;

@@ -1,6 +1,6 @@
 package net.microsoft.java.web.dao;
 
-import net.microsoft.java.web.foundational.entity.User;
+import net.microsoft.java.web.entity.User;
 
 import java.util.List;
 

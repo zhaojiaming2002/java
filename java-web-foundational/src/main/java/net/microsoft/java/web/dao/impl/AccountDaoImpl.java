@@ -1,12 +1,12 @@
 package net.microsoft.java.web.dao.impl;
 
 import net.microsoft.java.web.dao.AccountDao;
-import net.microsoft.java.web.foundational.entity.Account;
-import net.microsoft.java.web.foundational.entity.User;
-import net.microsoft.java.web.foundational.entity.bo.AccountBO;
-import net.microsoft.java.web.foundational.util.JDBCUtil;
+import net.microsoft.java.web.entity.Account;
+import net.microsoft.java.web.entity.bo.AccountBO;
+import net.microsoft.java.web.util.CustomerDataSourceV2;
+import net.microsoft.java.web.util.DruidDataSourceUtil;
+import net.microsoft.java.web.util.JDBCUtil;
 
-import java.awt.image.PackedColorModel;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,6 +22,9 @@ import java.util.List;
 public class AccountDaoImpl implements AccountDao {
     @Override
     public boolean update(AccountBO sourceAccount, AccountBO targetAccount) {
+//        CustomerDataSourceV1 customerDataSourceV1 = new CustomerDataSourceV1();
+//        CustomerDataSourceV2 customerDataSourceV2 = new CustomerDataSourceV2();
+
         Connection connection = null;
         PreparedStatement sourcePreparedStatement = null;
         PreparedStatement targetPreparedStatement = null;
@@ -37,7 +40,7 @@ public class AccountDaoImpl implements AccountDao {
         if (null != sqlSource && sqlSource != "" && null != sqlTarget && sqlTarget != "") {
             try {
 
-                connection = JDBCUtil.getConnection();
+                connection = DruidDataSourceUtil.getConnection();
                 connection.setAutoCommit(false);
                 sourcePreparedStatement = connection.prepareStatement(sqlSource);
                 targetPreparedStatement = connection.prepareStatement(sqlTarget);
@@ -67,8 +70,9 @@ public class AccountDaoImpl implements AccountDao {
                 }
 
             } finally {
-                JDBCUtil.release(null, sourcePreparedStatement, connection);
-                JDBCUtil.release(null, targetPreparedStatement, connection);
+                DruidDataSourceUtil.release(null, sourcePreparedStatement, connection);
+                DruidDataSourceUtil.release(null, targetPreparedStatement, connection);
+//                customerDataSourceV1.giveBackConnection(connection);
                 System.out.println("释放资源成功");
             }
 

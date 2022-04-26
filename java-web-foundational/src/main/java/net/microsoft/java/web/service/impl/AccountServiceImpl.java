@@ -1,10 +1,10 @@
-package net.microsoft.java.web.foundational.service.impl;
+package net.microsoft.java.web.service.impl;
 
 import net.microsoft.java.web.dao.AccountDao;
 import net.microsoft.java.web.dao.impl.AccountDaoImpl;
-import net.microsoft.java.web.foundational.entity.Account;
-import net.microsoft.java.web.foundational.entity.bo.AccountBO;
-import net.microsoft.java.web.foundational.service.AccountService;
+import net.microsoft.java.web.entity.Account;
+import net.microsoft.java.web.entity.bo.AccountBO;
+import net.microsoft.java.web.service.AccountService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,9 +24,9 @@ public class AccountServiceImpl implements AccountService {
         // 转账之前先查询借款人有没有
 
         Account accountByName = getAccountByName(sourceAccountBO);
+        Account targetByName = getAccountByName(targetAccountBO);
 
-
-        if (accountByName != null && accountByName.getBalance().compareTo(BigDecimal.ZERO) == 0
+        if (accountByName != null && targetByName != null && accountByName.getBalance().compareTo(BigDecimal.ZERO) == 0
                 || accountByName.getBalance().compareTo(targetAccountBO.getTransactionAmount()) == -1
         ) {
             System.out.println(accountByName.getName() + "金额不足");
