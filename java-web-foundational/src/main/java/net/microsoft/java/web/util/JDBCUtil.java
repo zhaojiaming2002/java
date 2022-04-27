@@ -43,11 +43,12 @@ public final class JDBCUtil {
 
 
     public static Connection getConnection() {
+
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return connection;
     }

@@ -1,5 +1,6 @@
 package net.microsoft.java.web.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
  * @author:Suche
  **/
 
-public class User {
+public class User implements Serializable {
 
     private Integer id;
     private String name;

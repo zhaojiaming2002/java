@@ -130,4 +130,26 @@ public class StatementUserDaoImplV2 implements UserDao {
     public int update(User user) {
         return 0;
     }
+
+    @Override
+    public int count() {
+        String sql = "select count(*) from jdbc_user";
+        try (
+                final Connection connection = JDBCUtil.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            if (null != sql) {
+                final ResultSet resultSet = preparedStatement.executeQuery(sql);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return 0;
+    }
 }
+
+

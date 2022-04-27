@@ -56,7 +56,7 @@ public class StatementUserDaoImplV1 implements UserDao {
     public int delete(User user) {
         String sql = null;
         try (
-                Connection connection =JDBCUtil.getConnection();
+                Connection connection = JDBCUtil.getConnection();
                 Statement statement = connection.createStatement()
         ) {
             if (user.getId() != null && user != null) {
@@ -135,6 +135,29 @@ public class StatementUserDaoImplV1 implements UserDao {
 
     @Override
     public int update(User user) {
+        return 0;
+    }
+
+    @Override
+    public int count() {
+        String sql = "select * from jdbc_user";
+        try (
+                final Connection connection = JDBCUtil.getConnection();
+                final Statement statement = connection.createStatement()
+        ) {
+            if (null != sql && sql != "") {
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count;
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return 0;
     }
 }

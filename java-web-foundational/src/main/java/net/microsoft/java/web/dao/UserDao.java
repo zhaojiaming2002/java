@@ -22,4 +22,7 @@ public interface UserDao {
 
     int update(User user);
 
+
+    int count();
+
 }

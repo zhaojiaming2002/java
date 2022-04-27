@@ -153,4 +153,25 @@ public class PreparedStatementUserDaoImpl implements UserDao {
 
     }
 
+    @Override
+    public int count() {
+        String sql = null;
+        sql = "select count(*) from jdbc_user";
+        try (
+                final Connection connection = JDBCUtil.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return 0;
+    }
 }

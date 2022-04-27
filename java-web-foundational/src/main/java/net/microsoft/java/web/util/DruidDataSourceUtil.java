@@ -30,6 +30,7 @@ public class DruidDataSourceUtil {
     }
 
     public static DataSource getDataSource() {
+        System.out.println(dataSource.getClass());
         return dataSource;
     }
 

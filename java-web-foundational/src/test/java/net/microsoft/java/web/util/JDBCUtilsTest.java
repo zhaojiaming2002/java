@@ -14,4 +14,9 @@ public class JDBCUtilsTest {
         JDBCUtil jdbcUtil = new JDBCUtil();
 
     }
+
+
+    @Test
+    public void test() {
+    }
 }

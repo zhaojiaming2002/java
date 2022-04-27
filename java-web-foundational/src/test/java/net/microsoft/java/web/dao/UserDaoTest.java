@@ -1,6 +1,8 @@
 package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.dao.impl.PreparedStatementUserDaoImpl;
+import net.microsoft.java.web.dao.impl.QueryRunnerUserDaoImpl;
+import net.microsoft.java.web.dao.impl.StatementUserDaoImplV1;
 import net.microsoft.java.web.entity.User;
 import org.testng.annotations.Test;
 
@@ -34,33 +36,43 @@ public class UserDaoTest {
 
     @Test
     public void testSelect() {
+//        User user = new User();
+//        user.setId(12);
+//        List<User> selectUsers = userDao.select(user);
+//
+//        for (User selectUser : selectUsers) {
+//            System.out.println(selectUser);
+//        }
         User user = new User();
-        user.setId(12);
-        List<User> selectUsers = userDao.select(user);
-
-        for (User selectUser : selectUsers) {
-            System.out.println(selectUser);
-        }
+        user.setId(1);
+        List<User> userList = userDao.select(user);
+        System.out.println(userList);
 
     }
 
     @Test
     public void testDelete() {
         User user = new User();
-        user.setName("小明");
+        user.setName("李瑞华");
 
         int insert = userDao.delete(user);
 
+        System.out.println(insert);
 
     }
 
     @Test
     public void testUpdate() {
         User user = new User();
-        user.setName("李瑞华");
+        user.setId(1);
         user.setPassword("7777777");
         int row = userDao.update(user);
+        System.out.println(row);
 
+    }
 
+    @Test
+    public void testCount() {
+        System.out.println("userDao.count() = " + userDao.count());
     }
 }
