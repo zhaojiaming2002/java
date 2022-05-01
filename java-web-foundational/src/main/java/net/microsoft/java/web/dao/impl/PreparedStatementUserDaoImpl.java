@@ -5,6 +5,7 @@ import net.microsoft.java.web.entity.User;
 import net.microsoft.java.web.util.JDBCUtil;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,8 +137,8 @@ public class PreparedStatementUserDaoImpl implements UserDao {
                     int id = resultSet.getInt("id");
                     String name = resultSet.getString("name");
                     String password = resultSet.getString("password");
-                    Timestamp createDate = resultSet.getTimestamp("create_date");
-                    Timestamp updateDate = resultSet.getTimestamp("update_date");
+                    final LocalDateTime createDate = resultSet.getTimestamp("create_date").toLocalDateTime();
+                    final LocalDateTime updateDate = resultSet.getTimestamp("update_date").toLocalDateTime();
                     User user = new User(id, name, password, createDate, updateDate);
                     userList.add(user);
                 }
@@ -154,7 +155,7 @@ public class PreparedStatementUserDaoImpl implements UserDao {
     }
 
     @Override
-    public int count() {
+    public long count() {
         String sql = null;
         sql = "select count(*) from jdbc_user";
         try (
@@ -174,4 +175,6 @@ public class PreparedStatementUserDaoImpl implements UserDao {
 
         return 0;
     }
+
+
 }

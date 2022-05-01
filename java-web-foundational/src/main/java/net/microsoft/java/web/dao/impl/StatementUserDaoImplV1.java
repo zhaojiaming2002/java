@@ -6,6 +6,7 @@ import net.microsoft.java.web.entity.User;
 import net.microsoft.java.web.util.JDBCUtil;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +96,8 @@ public class StatementUserDaoImplV1 implements UserDao {
                     final int id = resultSet.getInt("id");
                     final String name = resultSet.getString("name");
                     final String password = resultSet.getString("password");
-                    final Timestamp createDate = resultSet.getTimestamp("create_date");
-                    final Timestamp updateDate = resultSet.getTimestamp("update_date");
+                    final LocalDateTime createDate = resultSet.getTimestamp("create_date").toLocalDateTime();
+                    final LocalDateTime updateDate = resultSet.getTimestamp("update_date").toLocalDateTime();
                     userList.add(new User(id, name, password, createDate, updateDate));
                 }
                 return userList;
@@ -107,8 +108,8 @@ public class StatementUserDaoImplV1 implements UserDao {
                     final int id = resultSet.getInt("id");
                     final String name = resultSet.getString("name");
                     final String password = resultSet.getString("password");
-                    final Timestamp createDate = resultSet.getTimestamp("create_date");
-                    final Timestamp updateDate = resultSet.getTimestamp("update_date");
+                    final LocalDateTime createDate = resultSet.getTimestamp("create_date").toLocalDateTime();
+                    final LocalDateTime updateDate = resultSet.getTimestamp("update_date").toLocalDateTime();
                     userList.add(new User(id, name, password, createDate, updateDate));
                     return userList;
                 }
@@ -119,8 +120,8 @@ public class StatementUserDaoImplV1 implements UserDao {
                     final int id = resultSet.getInt("id");
                     final String name = resultSet.getString("name");
                     final String password = resultSet.getString("password");
-                    final Timestamp createDate = resultSet.getTimestamp("create_date");
-                    final Timestamp updateDate = resultSet.getTimestamp("update_date");
+                    final LocalDateTime createDate = resultSet.getTimestamp("create_date").toLocalDateTime();
+                    final LocalDateTime updateDate = resultSet.getTimestamp("update_date").toLocalDateTime();
                     userList.add(new User(id, name, password, createDate, updateDate));
                 }
                 return userList;
@@ -139,7 +140,7 @@ public class StatementUserDaoImplV1 implements UserDao {
     }
 
     @Override
-    public int count() {
+    public long count() {
         String sql = "select * from jdbc_user";
         try (
                 final Connection connection = JDBCUtil.getConnection();
@@ -148,7 +149,7 @@ public class StatementUserDaoImplV1 implements UserDao {
             if (null != sql && sql != "") {
                 ResultSet resultSet = statement.executeQuery(sql);
                 while (resultSet.next()) {
-                    int count = resultSet.getInt(1);
+                    long count = resultSet.getLong(1);
                     return count;
                 }
             }

@@ -1,13 +1,17 @@
 package net.microsoft.java.web.dao;
 
+import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
 import net.microsoft.java.web.dao.impl.PreparedStatementUserDaoImpl;
 import net.microsoft.java.web.dao.impl.QueryRunnerUserDaoImpl;
 import net.microsoft.java.web.dao.impl.StatementUserDaoImplV1;
 import net.microsoft.java.web.entity.User;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,7 +21,7 @@ import java.util.List;
  **/
 
 public class UserDaoTest {
-    static UserDao userDao = new PreparedStatementUserDaoImpl();
+    static UserDao userDao = new CustomerQueryRunnerUserDaoImpl();
 
 
     @Test
@@ -27,7 +31,7 @@ public class UserDaoTest {
 
     @Test
     public void testInsert() {
-        User user = new User(null, "李瑞华", "123456", new Timestamp(LocalDate.EPOCH.toEpochDay()), new Timestamp(LocalDate.EPOCH.toEpochDay()));
+        User user = new User(null, "李瑞华", "123456", LocalDateTime.now(), LocalDateTime.now());
         int insert = userDao.insert(user);
         System.out.println(insert == 1 ? "添加成功" : "添加失败");
 
@@ -44,9 +48,11 @@ public class UserDaoTest {
 //            System.out.println(selectUser);
 //        }
         User user = new User();
-        user.setId(1);
-        List<User> userList = userDao.select(user);
-        System.out.println(userList);
+        final List<User> select = userDao.select(user);
+        System.out.println(select);
+//        user.setId(1);
+//        List<User> userList = userDao.select(user);
+//        System.out.println(userList);
 
     }
 
@@ -74,5 +80,21 @@ public class UserDaoTest {
     @Test
     public void testCount() {
         System.out.println("userDao.count() = " + userDao.count());
+
     }
+
+    @Test
+    public void testDD() {
+        final Class<Integer> integerClass = Integer.class;
+        try {
+            Integer integer = integerClass.getConstructor().newInstance("12");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 }

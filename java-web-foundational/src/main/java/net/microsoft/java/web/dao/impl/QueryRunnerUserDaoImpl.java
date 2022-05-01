@@ -94,7 +94,7 @@ public class QueryRunnerUserDaoImpl implements UserDao {
 
 
     @Override
-    public int count() {
+    public long count() {
         String sql = "select count(*) from jdbc_user";
         try {
             Long query = queryRunner.query(sql, new ScalarHandler<Long>(1));
@@ -120,6 +120,7 @@ public class QueryRunnerUserDaoImpl implements UserDao {
                 throwables.printStackTrace();
             }
         }
+
 
         return 0;
     }

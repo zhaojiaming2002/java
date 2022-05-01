@@ -2,6 +2,7 @@ package net.microsoft.java.web.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * @description:用户实体类
@@ -14,13 +15,13 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     private String password;
-    private Timestamp createDate;
-    private Timestamp upDateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime upDateDate;
 
     public User() {
     }
 
-    public User(Integer id, String name, String password, Timestamp createDate, Timestamp upDateDate) {
+    public User(Integer id, String name, String password, LocalDateTime createDate, LocalDateTime upDateDate) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -52,19 +53,19 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Timestamp getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Timestamp getUpDateDate() {
+    public LocalDateTime getUpdateDate() {
         return upDateDate;
     }
 
-    public void setUpDateDate(Timestamp upDateDate) {
+    public void setUpdateDate(LocalDateTime upDateDate) {
         this.upDateDate = upDateDate;
     }
 
