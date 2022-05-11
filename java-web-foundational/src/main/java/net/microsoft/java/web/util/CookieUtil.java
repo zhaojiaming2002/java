@@ -20,10 +20,10 @@ public class CookieUtil {
      * @param response
      */
     public static void addCookie(CookieConfig cookieConfig, HttpServletResponse response) {
+        // 写给用户各自浏览器，当用户使用用浏览器再去访问服务器中Web资源时，就会带着Cookie
         Cookie cookie = new Cookie(cookieConfig.getCookieName(), cookieConfig.getCookieValue());
         cookie.setMaxAge(cookieConfig.getMaxAge());
         cookie.setPath(cookieConfig.getPath());
-
         response.addCookie(cookie);
     }
 

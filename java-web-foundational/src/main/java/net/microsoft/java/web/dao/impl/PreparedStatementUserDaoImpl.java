@@ -107,12 +107,19 @@ public class PreparedStatementUserDaoImpl implements UserDao {
         String sql = null;
         if (userCondition == null) {
             sql = "select id,name,password,create_date,update_date from jdbc_user where 1=1";
-        } else if (null != userCondition && userCondition.getName() != null) {
-            sql = "select id,name,password,create_date,update_date from jdbc_user where name = ?";
-        } else if (null != userCondition && userCondition.getId() != null) {
-            sql = "select id,name,password,create_date,update_date from jdbc_user where id = ?";
-        } else if (null != userCondition && userCondition.getName() != null && userCondition.getPassword() != null) {
+
+        } else if (null != userCondition && userCondition.getName() != null && userCondition.getName() != "" && userCondition.getPassword() != null && userCondition.getPassword() != "") {
             sql = "select id,name,password,create_date,update_date from jdbc_user where name = ? and password = ?";
+
+        } else if (null != userCondition && userCondition.getId() != null) {
+
+            sql = "select id,name,password,create_date,update_date from jdbc_user where id = ?";
+
+        } else if (null != userCondition && userCondition.getName() != null && userCondition.getName() != "") {
+
+            sql = "select id,name,password,create_date,update_date from jdbc_user where name = ?";
+
+
         }
 
         if (sql != null && sql != "") {
@@ -137,8 +144,8 @@ public class PreparedStatementUserDaoImpl implements UserDao {
                     int id = resultSet.getInt("id");
                     String name = resultSet.getString("name");
                     String password = resultSet.getString("password");
-                    final LocalDateTime createDate = resultSet.getTimestamp("create_date").toLocalDateTime();
-                    final LocalDateTime updateDate = resultSet.getTimestamp("update_date").toLocalDateTime();
+                    LocalDateTime createDate = resultSet.getTimestamp("create_date").toLocalDateTime();
+                    LocalDateTime updateDate = resultSet.getTimestamp("update_date").toLocalDateTime();
                     User user = new User(id, name, password, createDate, updateDate);
                     userList.add(user);
                 }

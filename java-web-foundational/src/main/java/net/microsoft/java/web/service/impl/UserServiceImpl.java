@@ -1,7 +1,9 @@
 package net.microsoft.java.web.service.impl;
 
 import net.microsoft.java.web.dao.UserDao;
+import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
 import net.microsoft.java.web.dao.impl.PreparedStatementUserDaoImpl;
+import net.microsoft.java.web.dao.impl.QueryRunnerUserDaoImpl;
 import net.microsoft.java.web.entity.User;
 import net.microsoft.java.web.service.UserService;
 
@@ -14,9 +16,11 @@ import java.util.List;
  **/
 
 public class UserServiceImpl implements UserService {
-    UserDao userDao = new PreparedStatementUserDaoImpl();
+    UserDao userDao = new QueryRunnerUserDaoImpl();
+
     /**
      * Service 层登录
+     *
      * @param user
      * @return
      */
@@ -24,8 +28,10 @@ public class UserServiceImpl implements UserService {
     public boolean login(User user) {
         if (null != user && null != user.getName() && user.getName() != "") {
             if (null != user.getPassword() && user.getPassword() != "") {
-                List<User> select = userDao.select(user);
-                return select.size() == 1;
+                List<User> userList = userDao.select(user);
+                if (null != userList && userList.size() > 0) {
+                    return true;
+                }
             }
         }
         return false;
@@ -33,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Service 层注册
+     *
      * @param user
      * @return
      */

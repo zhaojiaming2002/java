@@ -81,7 +81,11 @@ public class QueryRunnerUserDaoImpl implements UserDao {
             try {
                 List<User> userList = new ArrayList<>();
 
-                userList.add(queryRunner.query(sql, new BeanHandler<>(User.class), user.getId()));
+
+                User query = queryRunner.query(sql, new BeanHandler<>(User.class), user.getName(), user.getPassword());
+                if (null != query) {
+                    userList.add(query);
+                }
                 return userList;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -92,7 +96,11 @@ public class QueryRunnerUserDaoImpl implements UserDao {
             sql = "select id,name,password,create_date,update_date from jdbc_user where name = ? and password = ?";
             try {
                 List<User> userList = new ArrayList<>();
-                userList.add(queryRunner.query(sql, new BeanHandler<>(User.class), user.getName(), user.getPassword()));
+                User query = queryRunner.query(sql, new BeanHandler<>(User.class), user.getName(), user.getPassword());
+                if (null != query) {
+                    userList.add(query);
+                }
+
                 return userList;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

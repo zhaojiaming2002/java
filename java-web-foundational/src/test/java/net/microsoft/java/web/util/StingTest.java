@@ -88,6 +88,15 @@ public class StingTest {
         return false;
     }
 
+    @Test
+    public void testIfElse() {
+
+        String str = "";
+        if (!str.equals("")) {
+            System.out.println(true);
+        }
+    }
+
 }
 
 
