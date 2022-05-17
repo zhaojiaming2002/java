@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 /**
  * @description:
@@ -45,6 +46,13 @@ public class StingTest {
             frame.setVisible(true);
         }
 
+
+    }
+
+    @Test
+    public void testGetAsResource() {
+        final URL resource = StingTest.class.getClassLoader().getResource("");
+        System.out.println(resource);
 
     }
 

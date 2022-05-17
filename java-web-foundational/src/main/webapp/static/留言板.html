@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #nav {
+            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            border: 1px solid red;
+        }
+
+        #nav textarea {
+            float: left;
+            width: 99%;
+            height: 92%;
+
+        }
+
+        #nav button {
+            float: right;
+        }
+
+        #content {
+            margin: 10px auto;
+            width: 380px;
+        }
+
+        #content_ul {
+            padding: 10px;
+            list-style-type: none;
+        }
+
+        #content_ul li {
+            margin: 5px auto;
+            background-color: pink;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="nav">
+    <textarea></textarea>
+    <button id="submit">提交</button>
+</div>
+<div id="content">
+    <ul id="content_ul">
+    </ul>
+</div>
+
+</body>
+
+</html>
+<script>
+    let textarea = document.querySelector("textarea");
+    let btn_sb = document.querySelector("#submit");
+    var content_ul = document.querySelector("#content_ul");
+
+    btn_sb.onmousedown = function () {
+        let value = textarea.value;
+        if (value != "" && value != null) {
+            var createLi = document.createElement("li");
+            createLi.innerHTML = value + "<button style='float: right' >删除</button>";
+            content_ul.appendChild(createLi);
+
+            for (let i = 0; i < content_ul.childElementCount; i++) {
+                var lastElementChild = content_ul.children[i].lastElementChild;
+                lastElementChild.onclick=function (){
+                    content_ul.removeChild(this.parentNode);
+                }
+            }
+        }
+    };
+
+
+</script>

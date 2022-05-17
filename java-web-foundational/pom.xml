@@ -63,6 +63,7 @@
         <mysql-connector-java.version>8.0.27</mysql-connector-java.version>
         <druid.version>1.2.9</druid.version>
         <commons-dbutils.version>1.7</commons-dbutils.version>
+        <java-ee-api>8.0.1</java-ee-api>
     </properties>
 
     <dependencyManagement>
@@ -93,6 +94,14 @@
                 <version>${commons-dbutils.version}</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${java-ee-api}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
 
 
@@ -121,7 +130,10 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
 
     </dependencies>
 

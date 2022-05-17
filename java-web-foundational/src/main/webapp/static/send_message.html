@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>send_messages</title>
+</head>
+<body>
+<input type="number">
+<button>发送短信</button>
+
+<script>
+    var htmlButtonElement = document.querySelector("button");
+    htmlButtonElement.onclick = function () {
+        htmlButtonElement.disabled = true;
+        var time = 10;
+        var timer = setInterval(function () {
+            if (time == 0) {
+                clearInterval(timer);
+                htmlButtonElement.disabled = false;
+                htmlButtonElement.innerHTML = "发送";
+            } else {
+                htmlButtonElement.innerHTML = "还剩下" + time + "秒";
+                time--;
+            }
+
+        }, 1000);
+
+    };
+</script>
+</body>
+</html>

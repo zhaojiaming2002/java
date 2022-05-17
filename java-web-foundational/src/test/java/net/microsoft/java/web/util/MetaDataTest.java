@@ -20,8 +20,8 @@ public class MetaDataTest {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             // 获取sql参数元数据
-            ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
-            int parameterCount = parameterMetaData.getParameterCount();
+//            ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
+//            int parameterCount = parameterMetaData.getParameterCount();
 
 
 //            for (int i = 1; i <= parameterCount; i++) {
