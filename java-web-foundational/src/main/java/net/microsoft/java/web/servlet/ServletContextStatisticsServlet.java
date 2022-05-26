@@ -9,7 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(value = "/*", loadOnStartup = 1)
+@WebServlet(value = "/statistic", loadOnStartup = 1)
 public class ServletContextStatisticsServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
