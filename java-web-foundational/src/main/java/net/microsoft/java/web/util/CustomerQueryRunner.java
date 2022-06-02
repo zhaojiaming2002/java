@@ -6,8 +6,7 @@ import net.microsoft.java.web.entity.User;
 import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @description:改进DbUtils查询不到列名例如create_date数据
@@ -62,6 +61,7 @@ public class CustomerQueryRunner {
      * @return
      */
     public long queryForLong(String sql, Object... params) {
+
 
         if (null != sql && null != dataSource) {
             try (
@@ -278,6 +278,9 @@ public class CustomerQueryRunner {
         }
         return false;
     }
+
+
+
 
 
 }
