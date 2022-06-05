@@ -19,7 +19,9 @@ import java.util.List;
  **/
 
 public class QueryRunnerUserDaoImpl implements UserDao {
-
+    /**
+     * 依赖 DruidDataSourceUtil.getDataSource()
+     */
     QueryRunner queryRunner = new QueryRunner(DruidDataSourceUtil.getDataSource());
 
 
@@ -86,7 +88,16 @@ public class QueryRunnerUserDaoImpl implements UserDao {
             }
         }
 
-
+        if (null != user && null != user.getName() && user.getPassword() != null && user.getName() != "" && user.getPassword() != "") {
+            sql = "select id,name,password,create_date,update_date from jdbc_user where name = ? and password = ?";
+            try {
+                List<User> userList = new ArrayList<>();
+                userList.add(queryRunner.query(sql, new BeanHandler<>(User.class), user.getName(), user.getPassword()));
+                return userList;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
         return null;
 
 

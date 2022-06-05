@@ -19,7 +19,7 @@ import java.util.List;
  * @author:Suche
  **/
 
-public class AccountDaoImpl implements AccountDao {
+public class    AccountDaoImpl implements AccountDao {
     @Override
     public boolean update(AccountBO sourceAccount, AccountBO targetAccount) {
 //        CustomerDataSourceV1 customerDataSourceV1 = new CustomerDataSourceV1();

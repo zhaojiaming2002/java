@@ -65,6 +65,7 @@
         <commons-dbutils.version>1.7</commons-dbutils.version>
         <java-ee-api>8.0.1</java-ee-api>
         <commons-io.version>2.11.0</commons-io.version>
+        <commons-beanutils>1.9.4</commons-beanutils>
     </properties>
 
 
@@ -99,6 +100,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+
 
     </dependencies>
     <!--    依赖注入管理 -->
@@ -115,6 +121,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils}</version>
             </dependency>
 
 

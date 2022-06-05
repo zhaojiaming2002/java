@@ -10,5 +10,18 @@ import net.microsoft.java.web.entity.User;
 
 public interface UserService {
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     boolean login(User user);
+
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    boolean register(User user);
 }

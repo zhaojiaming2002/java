@@ -21,4 +21,15 @@ public class UserServiceTest {
         boolean login = userService.login(user);
         System.out.println(login ? "登陆成功" : "登陆失败");
     }
+
+
+    @Test
+    public void testRegister() {
+        User user = new User();
+        user.setName("李瑞华");
+        user.setPassword("7777777");
+        final boolean register = userService.register(user);
+        System.out.println(register ? "注册成功" : "注册失败");
+    }
 }
+
