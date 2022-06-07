@@ -4,6 +4,7 @@ package net.microsoft.java.web.servlet; /**
  * @author: suche
  **/
 
+import com.wf.captcha.utils.CaptchaUtil;
 import net.microsoft.java.web.entity.User;
 import net.microsoft.java.web.service.UserService;
 import net.microsoft.java.web.service.impl.UserServiceImpl;
@@ -26,9 +27,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 设置请求编码
-        request.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding("UTF-8");
         // 设置响应编码
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        HttpSession session = request.getSession();
+        String captcha = (String) session.getAttribute("captcha");
 
         User user = new User();
         Map<String, String[]> parameterMap = request.getParameterMap();
@@ -37,16 +41,16 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(user.getName());
-        System.out.println(user.getPassword());
+        String clientCaptcha = request.getParameter("captcha");
 
         boolean login = userService.login(user);
         response.setContentType("text/html; charset=UTF-8");
-        if (login) {
+        if (login && clientCaptcha.equalsIgnoreCase(captcha)) {
             response.getWriter().write("<h1>登录成功</h1>");
         } else {
             response.getWriter().write("<h1>登录失败</h1>");
+//            CaptchaUtil.clear(request);
+
         }
     }
 

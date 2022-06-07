@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <style>
+
+    </style>
 </head>
 <body>
 <form method="post" action="../login">
-    用户名:<input type="text" name="name"><br>
-    密码:<input type="password" name="password">
-    <input type="submit" value="登录"/>
+    用户名:<input type="text" name="name" autocomplete="off"><br/>
+    密码:<input type="password" name="password" autocomplete="off"><br/>
+    验证码:<input type="text" name="captcha" autocomplete="off"><br/>
+    <img src="../captcha" width="130px" height="48px" id="captcha"/></br>
+    <input type="submit" value="登录"/><br/>
 </form>
-<script></script>
+<script>
+
+    let element = document.querySelector("#captcha");
+    element.addEventListener("click", function () {
+        this.setAttribute("src", "../captcha?date=" + new Date());
+    });
+
+</script>
 </body>
 </html>
