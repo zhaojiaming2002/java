@@ -14,7 +14,7 @@ public class HttpSessionInvalidateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String courseName = (String) session.getAttribute("courseName");
+//        String courseName = (String) session.getAttribute("courseName");
 
         // 删除session
         session.invalidate();

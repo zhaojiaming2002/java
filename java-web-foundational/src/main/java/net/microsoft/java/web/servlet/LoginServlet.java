@@ -79,6 +79,8 @@ public class LoginServlet extends HttpServlet {
 
                     CookieUtil.removeCookie(nameConfig, response);
                     CookieUtil.removeCookie(passwordConfig, response);
+                    request.getSession().removeAttribute("user");
+                    System.out.println(request.getSession().getAttribute("user"));
                 }
                 // 登录成功
                 request.getSession().setAttribute("user", user);
