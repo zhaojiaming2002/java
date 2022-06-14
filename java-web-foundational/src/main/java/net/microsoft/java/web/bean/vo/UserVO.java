@@ -1,5 +1,6 @@
 package net.microsoft.java.web.bean.vo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
  * @author: suche
  **/
 
-public class UserVO {
+public class UserVO implements Serializable {
 
     private Integer id;
     private String name;
