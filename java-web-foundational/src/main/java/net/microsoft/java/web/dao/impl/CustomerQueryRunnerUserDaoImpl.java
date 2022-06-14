@@ -31,23 +31,43 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
 
     @Override
     public int delete(User user) {
+        String sql = null;
+        if (null != user && user.getId() != null) {
+            sql = "delete from jdbc_user where id=?";
+            int row = customerQueryRunner.update(sql, user.getId());
+            return row;
+        }
         return 0;
     }
 
     @Override
     public List<User> select(User user) {
-        String sql = "select id,name,password,create_date,update_date from jdbc_user";
-
-        List<User> userList = customerQueryRunner.queryForBeans(sql, User.class);
-        if (null != user && null != user.getId()) {
-            customerQueryRunner.queryForBeans(sql, User.class);
+        if (user == null) {
+            String sql = "select id,name,password,create_date,update_date from jdbc_user";
+            List<User> userList = customerQueryRunner.queryForBeans(sql, User.class);
+            if (null != userList && userList.size() > 0) {
+                return userList;
+            }
         }
 
-        return userList;
+        if (null != user && user.getName() != null && user.getPassword() != null) {
+            String sql = "select id,name,password,create_date,update_date from jdbc_user where name = ? and password = ?";
+            List<User> userList = customerQueryRunner.queryForBeans(sql, User.class, user.getName(), user.getPassword());
+            if (null != userList && userList.size() > 0) {
+                return userList;
+            }
+        }
+
+        return null;
     }
 
     @Override
     public int update(User user) {
+        if (null != user && user.getId() != null && user.getPassword() != null) {
+            String sql = "update jdbc_user set password = ? where id = ? ";
+            int row = customerQueryRunner.update(sql, user.getPassword(), user.getId());
+            return row;
+        }
         return 0;
     }
 

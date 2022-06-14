@@ -68,6 +68,7 @@
         <commons-beanutils>1.9.4</commons-beanutils>
         <log4j.version>2.17.2</log4j.version>
         <easy.captcha>1.6.2</easy.captcha>
+        <jtsl.version>1.2</jtsl.version>
     </properties>
 
 
@@ -113,6 +114,10 @@
         <dependency>
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
         </dependency>
 
     </dependencies>
@@ -178,6 +183,14 @@
                 <artifactId>easy-captcha</artifactId>
                 <version>${easy.captcha}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jtsl.version}</version>
+            </dependency>
+
 
         </dependencies>
 

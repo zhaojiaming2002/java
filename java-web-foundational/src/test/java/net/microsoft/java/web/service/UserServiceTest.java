@@ -4,6 +4,8 @@ import net.microsoft.java.web.entity.User;
 import net.microsoft.java.web.service.impl.UserServiceImpl;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 /**
  * @description:UserService测试
  * @Date on 2022/4/16
@@ -30,6 +32,12 @@ public class UserServiceTest {
         user.setPassword("7777777");
         final boolean register = userService.register(user);
         System.out.println(register ? "注册成功" : "注册失败");
+    }
+
+    @Test
+    public void testFinaAllUsers() {
+        List<User> allUsers = userService.findAllUsers();
+        System.out.println(allUsers);
     }
 }
 

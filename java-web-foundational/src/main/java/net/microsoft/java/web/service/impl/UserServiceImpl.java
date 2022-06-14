@@ -16,7 +16,7 @@ import java.util.List;
  **/
 
 public class UserServiceImpl implements UserService {
-    UserDao userDao = new QueryRunnerUserDaoImpl();
+    UserDao userDao = new CustomerQueryRunnerUserDaoImpl();
 
     /**
      * Service 层登录
@@ -50,5 +50,14 @@ public class UserServiceImpl implements UserService {
             return row == 1 ? true : false;
         }
         return false;
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        List<User> userList = userDao.select(null);
+        if (null != userList && userList.size() > 0) {
+            return userList;
+        }
+        return null;
     }
 }

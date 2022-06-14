@@ -48,9 +48,11 @@ public class UserDaoTest {
 //            System.out.println(selectUser);
 //        }
         User user = new User();
-        final List<User> select = userDao.select(user);
+        user.setName("李瑞华");
+        user.setPassword("2222222");
+        List<User> select = userDao.select(user);
         System.out.println(select);
-//        user.setId(1);
+
 //        List<User> userList = userDao.select(user);
 //        System.out.println(userList);
 
