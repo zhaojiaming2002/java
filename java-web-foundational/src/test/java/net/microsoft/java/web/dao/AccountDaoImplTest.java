@@ -2,11 +2,11 @@ package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.dao.impl.AccountDaoImpl;
 import net.microsoft.java.web.entity.Account;
-import net.microsoft.java.web.entity.bo.AccountBO;
 import org.testng.annotations.Test;
 
 import java.io.FileReader;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -19,21 +19,17 @@ import java.util.List;
 public class AccountDaoImplTest {
     AccountDao accountDao = new AccountDaoImpl();
 
+
+
     @Test
-    public void testUpdateAmount() {
-        // 100000块
-        BigDecimal amount = new BigDecimal("100000.00");
-        // 借款人
-        AccountBO sourceAccount = new AccountBO();
-        sourceAccount.setName("jack");
-        sourceAccount.setTransactionAmount(amount);
-
-        // 收款人
-        AccountBO targetAccount = new AccountBO();
-        targetAccount.setName("tony");
-        targetAccount.setTransactionAmount(amount);
-
-        accountDao.update(sourceAccount, targetAccount);
+    public void testUpdate() {
+        AccountDao accountDao = new AccountDaoImpl();
+        try {
+            boolean tony = accountDao.update( "tony", new BigDecimal("50").negate());
+            System.out.println(tony);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Test
@@ -46,5 +42,6 @@ public class AccountDaoImplTest {
             System.out.println(accountSelect.getName() + " " + accountSelect.getBalance());
         }
     }
+
 
 }

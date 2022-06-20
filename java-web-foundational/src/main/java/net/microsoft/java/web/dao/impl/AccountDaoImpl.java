@@ -2,10 +2,10 @@ package net.microsoft.java.web.dao.impl;
 
 import net.microsoft.java.web.dao.AccountDao;
 import net.microsoft.java.web.entity.Account;
-import net.microsoft.java.web.entity.bo.AccountBO;
-import net.microsoft.java.web.util.CustomerDataSourceV2;
 import net.microsoft.java.web.util.DruidDataSourceUtil;
 import net.microsoft.java.web.util.JDBCUtil;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -19,67 +19,35 @@ import java.util.List;
  * @author:Suche
  **/
 
-public class    AccountDaoImpl implements AccountDao {
+public class AccountDaoImpl implements AccountDao {
+
+    /**
+     * 组合 Dbutils
+     */
+    private QueryRunner queryRunner = new QueryRunner(DruidDataSourceUtil.getDataSource());
+
+
     @Override
-    public boolean update(AccountBO sourceAccount, AccountBO targetAccount) {
-//        CustomerDataSourceV1 customerDataSourceV1 = new CustomerDataSourceV1();
-//        CustomerDataSourceV2 customerDataSourceV2 = new CustomerDataSourceV2();
+    public boolean update(String accountName, BigDecimal amount) throws SQLException {
+        System.out.println(Thread.currentThread().getName() + "当前处理请求的线程名");
+        String sql = "update jdbc_account set balance = balance- ?,update_date = now() where name  = ?";
+        Connection connection = DruidDataSourceUtil.getConnection();
+        int row = queryRunner.update(connection, sql, amount, accountName);
 
-        Connection connection = null;
-        PreparedStatement sourcePreparedStatement = null;
-        PreparedStatement targetPreparedStatement = null;
-        String sqlSource = null;
-        String sqlTarget = null;
-        if (null != sourceAccount && null != sourceAccount.getName() && sourceAccount.getTransactionAmount() != null) {
-            sqlSource = "update jdbc_account set balance = balance - ? where name = ? ";
-        }
-        if (null != targetAccount && null != targetAccount.getName() && null != targetAccount.getTransactionAmount()) {
-            sqlTarget = "update jdbc_account set balance = balance + ? where name = ? ";
-        }
+        return row == 1 ? true : false;
+    }
 
-        if (null != sqlSource && sqlSource != "" && null != sqlTarget && sqlTarget != "") {
-            try {
-
-                connection = DruidDataSourceUtil.getConnection();
-                connection.setAutoCommit(false);
-                sourcePreparedStatement = connection.prepareStatement(sqlSource);
-                targetPreparedStatement = connection.prepareStatement(sqlTarget);
-
-                if (null != sourceAccount && null != sourceAccount.getName() && sourceAccount.getTransactionAmount() != null
-                        && null != targetAccount && targetAccount.getName() != "" && targetAccount.getTransactionAmount() != null
-                ) {
-                    sourcePreparedStatement.setBigDecimal(1, sourceAccount.getTransactionAmount());
-                    sourcePreparedStatement.setString(2, sourceAccount.getName());
-                    int row = sourcePreparedStatement.executeUpdate();
-                    if (row == 1) {
-                        targetPreparedStatement.setBigDecimal(1, targetAccount.getTransactionAmount());
-                        targetPreparedStatement.setString(2, targetAccount.getName());
-                        row = targetPreparedStatement.executeUpdate();
-                        connection.commit();
-                        return row == 1 ? true : false;
-                    }
-
-                }
-
-            } catch (Exception ex) {
-                try {
-                    connection.rollback();
-                    System.out.println("发生异常，回滚");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            } finally {
-                DruidDataSourceUtil.release(null, sourcePreparedStatement, connection);
-                DruidDataSourceUtil.release(null, targetPreparedStatement, connection);
-//                customerDataSourceV1.giveBackConnection(connection);
-                System.out.println("释放资源成功");
+    @Override
+    public Account select(String accountName) throws SQLException {
+        String sql = null;
+        if (accountName != null && accountName != "") {
+            sql = "select id,name,balance,create_date,update_date from jdbc_account where name = ?";
+            Account account = queryRunner.query(sql, new BeanHandler<>(Account.class), accountName);
+            if (account != null) {
+                return account;
             }
-
-
         }
-
-        return false;
+        return null;
     }
 
     @Override

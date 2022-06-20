@@ -42,7 +42,6 @@ public class UserListServlet extends HttpServlet {
 
         request.setAttribute("userVOList", userVOList);
         request.getRequestDispatcher("/pages/user_list.jsp").forward(request, response);
-
     }
 
     @Override
