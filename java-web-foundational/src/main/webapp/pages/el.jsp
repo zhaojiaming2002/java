@@ -1,5 +1,5 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="net.microsoft.java.web.entity.User" %>
+<%@ page import="net.microsoft.java.web.bean.entity.User" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.time.LocalDateTime" %><%--
   Created by IntelliJ IDEA.

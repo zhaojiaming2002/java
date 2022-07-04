@@ -1,11 +1,10 @@
 package net.microsoft.java.web.dao.impl;
 
 import net.microsoft.java.web.dao.UserDao;
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.util.CustomerQueryRunner;
 import net.microsoft.java.web.util.DruidDataSourceUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,11 +14,12 @@ import java.util.List;
  **/
 
 public class CustomerQueryRunnerUserDaoImpl implements UserDao {
+
     CustomerQueryRunner customerQueryRunner = new CustomerQueryRunner(DruidDataSourceUtil.getDataSource());
 
 
     @Override
-    public int insert(User user) {
+    public int insert(User user) throws Exception {
         String sql = null;
         if (null != user) {
             sql = "insert into jdbc_user values(null,?,?,now(),now())";
@@ -30,7 +30,7 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
     }
 
     @Override
-    public int delete(User user) {
+    public int delete(User user) throws Exception  {
         String sql = null;
         if (null != user && user.getId() != null) {
             sql = "delete from jdbc_user where id=?";
@@ -41,7 +41,7 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> select(User user) {
+    public List<User> select(User user) throws Exception {
         if (user == null) {
             String sql = "select id,name,password,create_date,update_date from jdbc_user";
             List<User> userList = customerQueryRunner.queryForBeans(sql, User.class);
@@ -62,7 +62,7 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
     }
 
     @Override
-    public int update(User user) {
+    public int update(User user) throws Exception {
         if (null != user && user.getId() != null && user.getPassword() != null) {
             String sql = "update jdbc_user set password = ? where id = ? ";
             int row = customerQueryRunner.update(sql, user.getPassword(), user.getId());
@@ -72,7 +72,7 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
     }
 
     @Override
-    public long count() {
+    public long count() throws Exception {
         String sql = "select count(*) from jdbc_user";
 //        long count = customerQueryRunner.queryForLong(sql, 1);
         Long count = customerQueryRunner.queryForType(sql, Long.class);

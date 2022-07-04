@@ -1,7 +1,6 @@
 package net.microsoft.java.web.util;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
-import net.microsoft.java.web.entity.User;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Method;
@@ -30,14 +29,14 @@ public class CustomerQueryRunner {
      * @param params
      * @return
      */
-    public int update(String sql, Object... params) {
+    public int update(String sql, Object... params) throws Exception {
         if (null != sql) {
             try (
                     Connection connection = dataSource.getConnection();
                     PreparedStatement preparedStatement = connection.prepareStatement(sql)
             ) {
                 ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
-                //  获取parame元数据 ?
+                //  获取Parame元数据 ?
                 int parameterCount = parameterMetaData.getParameterCount();
                 for (int i = 1; i <= parameterCount; i++) {
                     preparedStatement.setObject(i, params[i - 1]);
@@ -46,7 +45,37 @@ public class CustomerQueryRunner {
                 return row;
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new Exception(e);
+            }
+        }
+
+        return -1;
+    }
+
+
+    /**
+     * 数据的增删改，用于同一个连接，启用事物
+     *
+     * @param sql
+     * @param params
+     * @return
+     */
+    public int update(Connection connection, String sql, Object... params) throws Exception {
+        if (null != sql) {
+            try (
+                    PreparedStatement preparedStatement = connection.prepareStatement(sql)
+            ) {
+                ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
+                //  获取Parame元数据 ?
+                int parameterCount = parameterMetaData.getParameterCount();
+                for (int i = 1; i <= parameterCount; i++) {
+                    preparedStatement.setObject(i, params[i - 1]);
+                }
+                int row = preparedStatement.executeUpdate();
+                return row;
+
+            } catch (SQLException e) {
+                throw new Exception(e);
             }
         }
 
@@ -60,7 +89,7 @@ public class CustomerQueryRunner {
      * @param params
      * @return
      */
-    public long queryForLong(String sql, Object... params) {
+    public long queryForLong(String sql, Object... params) throws Exception {
 
 
         if (null != sql && null != dataSource) {
@@ -84,7 +113,7 @@ public class CustomerQueryRunner {
                 return count;
 
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new Exception(e);
             }
 
 
@@ -102,7 +131,7 @@ public class CustomerQueryRunner {
      * @param <T>
      * @return
      */
-    public <T> T queryForType(String sql, Class<T> clazz, T... params) {
+    public <T> T queryForType(String sql, Class<T> clazz, T... params) throws Exception {
 
         if (null != dataSource && null != sql) {
             try (
@@ -124,7 +153,7 @@ public class CustomerQueryRunner {
                     return t;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new Exception(e);
             }
 
 
@@ -142,7 +171,7 @@ public class CustomerQueryRunner {
      * @param <T>    泛型
      * @return
      */
-    public <T> T queryForBean(String sql, Class<T> clazz, Object... params) {
+    public <T> T queryForBean(String sql, Class<T> clazz, Object... params) throws Exception {
         if (null != dataSource && null != sql) {
             try (
                     Connection connection = dataSource.getConnection();
@@ -156,14 +185,16 @@ public class CustomerQueryRunner {
                 for (int i = 1; i <= parameterCount; i++) {
                     preparedStatement.setObject(i, params[i - 1]);
                 }
+
                 // 反射创建对象
-                T instance = clazz.newInstance();
+
                 // 反射获取方法
                 Method[] methods = clazz.getMethods();
                 ResultSetMetaData metaData = preparedStatement.getMetaData();
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                while (resultSet.next()) {
+                if (resultSet.next()) {
+                    T instance = clazz.newInstance();
                     for (int i = 1; i <= metaData.getColumnCount(); i++) {
                         // 获取列名
                         String columnName = metaData.getColumnName(i);
@@ -181,16 +212,20 @@ public class CustomerQueryRunner {
                                 if (compareColumnNameFiledName(columnName, propName)) {
                                     Object value = resultSet.getObject(columnName);
                                     method.invoke(instance, value);
-                                    break;
                                 }
                             }
                         }
 
                     }
+
                     return instance;
+
+                } else {
+                    return null;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+
+                System.out.println(e.getMessage());
             }
         }
         return null;
@@ -203,7 +238,7 @@ public class CustomerQueryRunner {
      * @param <T>
      * @return 返回实体类型的集合
      */
-    public <T> List<T> queryForBeans(String sql, Class<T> clazz, Object... params) {
+    public <T> List<T> queryForBeans(String sql, Class<T> clazz, Object... params) throws Exception {
         if (null != sql && sql != "") {
             try (
                     Connection connection = dataSource.getConnection();
@@ -247,7 +282,7 @@ public class CustomerQueryRunner {
 
                 return listBeans;
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new Exception(e);
             }
 
 
@@ -278,9 +313,6 @@ public class CustomerQueryRunner {
         }
         return false;
     }
-
-
-
 
 
 }

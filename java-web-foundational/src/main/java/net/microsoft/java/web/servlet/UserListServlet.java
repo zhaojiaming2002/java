@@ -6,7 +6,7 @@ package net.microsoft.java.web.servlet; /**
 
 
 import net.microsoft.java.web.bean.vo.UserVO;
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.service.UserService;
 import net.microsoft.java.web.service.impl.UserServiceImpl;
 
@@ -24,7 +24,12 @@ public class UserListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<User> userList = userService.findAllUsers();
+        List<User> userList = null;
+        try {
+            userList = userService.findAllUsers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         List<UserVO> userVOList = null;
         if (userList != null && userList.size() > 0) {
             userVOList = new ArrayList<>();

@@ -1,10 +1,10 @@
 package net.microsoft.java.web.dao;
 
-import net.microsoft.java.web.entity.Account;
+
+import net.microsoft.java.web.bean.entity.Account;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 import java.util.List;
 
 /**
@@ -22,17 +22,54 @@ public interface AccountDao {
      * @param accountName 账户名
      * @param amount      转账金额
      * @return
+     * @throws Exception
      */
-    boolean update(String accountName, BigDecimal amount) throws SQLException;
+    boolean update(String accountName, BigDecimal amount) throws Exception;
 
     /**
      * 根据用户名 查询用户
      *
      * @param accountName 账户名
      * @return
+     * @throws Exception
      */
-    Account select(String accountName) throws SQLException;
+    Account select(String accountName) throws Exception;
 
-    List<Account> select(Account userCondition);
+    /**
+     * 查询全部用户
+     *
+     * @return
+     * @throws Exception
+     */
+    List<Account> selectAll() throws Exception;
+
+    /**
+     * 查询一个账户
+     *
+     * @param accountCondition
+     * @return
+     * @throws Exception
+     */
+    Account selectOne(Account accountCondition) throws Exception;
+
+
+    /**
+     * 插入一个账户
+     *
+     * @param account 账户
+     * @return
+     * @throws Exception
+     */
+    boolean insert(Account account) throws Exception;
+
+    /**
+     * 删除一个用户
+     *
+     * @param account 账户
+     * @return
+     * @throws Exception
+     */
+
+    boolean delete(Account account);
 
 }

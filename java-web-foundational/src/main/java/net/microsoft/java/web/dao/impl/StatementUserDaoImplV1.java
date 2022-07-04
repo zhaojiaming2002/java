@@ -2,7 +2,7 @@ package net.microsoft.java.web.dao.impl;
 
 import com.mysql.cj.jdbc.Driver;
 import net.microsoft.java.web.dao.UserDao;
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.util.JDBCUtil;
 
 import java.sql.*;

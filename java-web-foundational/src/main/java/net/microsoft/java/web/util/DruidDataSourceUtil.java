@@ -28,6 +28,7 @@ public class DruidDataSourceUtil {
      */
     private static final ThreadLocal<Connection> THREAD_LOCAL_CONNECTION = new ThreadLocal<>();
 
+
     static {
         Properties properties = new Properties();
         try {
@@ -39,7 +40,7 @@ public class DruidDataSourceUtil {
     }
 
     public static DataSource getDataSource() {
-        System.out.println(dataSource.getClass());
+        System.out.println("invoke getDataSource" + dataSource.getClass());
         return dataSource;
     }
 
@@ -47,11 +48,12 @@ public class DruidDataSourceUtil {
         System.out.println(Thread.currentThread().getName() + "当前处理请求的线程名");
 
         Connection connection = THREAD_LOCAL_CONNECTION.get();
+
         if (connection == null) {
             THREAD_LOCAL_CONNECTION.set(getDataSource().getConnection());
             connection = THREAD_LOCAL_CONNECTION.get();
         }
-        
+
         return connection;
     }
 

@@ -2,6 +2,10 @@ package net.microsoft.java.web.util;
 
 import org.testng.annotations.Test;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,19 +19,20 @@ import java.net.URL;
 
 public class StingTest {
     public static void main(String[] args) {
-        String fieldName = "setId";
+      /*  String fieldName = "setId";
         String originColumnName = "id";
 
         boolean isCompare = compareColumnNameFiledName(originColumnName, fieldName);
 
         System.out.println(isCompare ? "匹配成功" : "匹配失败");
-//            String subPropertyName = filedName.substring(3);
-//
-//            char firstPropNameWithOutUpperCase = subPropertyName.charAt(0);
-//            char firstPropNameWithOutLowerCase = Character.toLowerCase(firstPropNameWithOutUpperCase);
-//
-//            String propName = subPropertyName.replace(firstPropNameWithOutUpperCase, firstPropNameWithOutLowerCase);
-//            System.out.println(propName);
+            String subPropertyName = filedName.substring(3);
+
+            char firstPropNameWithOutUpperCase = subPropertyName.charAt(0);
+            char firstPropNameWithOutLowerCase = Character.toLowerCase(firstPropNameWithOutUpperCase);
+
+            String propName = subPropertyName.replace(firstPropNameWithOutUpperCase, firstPropNameWithOutLowerCase);
+            System.out.println(propName);*/
+
 
     }
 
@@ -96,6 +101,14 @@ public class StingTest {
             System.out.println(true);
         }
     }
+
+    @Test
+    public void testBalanceIsAllNumber() {
+        String balance = "10aa";
+        boolean matches = balance.matches("[0-9]+");
+        System.out.println(matches);
+    }
+
 
 }
 

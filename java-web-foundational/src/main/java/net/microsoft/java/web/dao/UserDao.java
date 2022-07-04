@@ -1,6 +1,6 @@
 package net.microsoft.java.web.dao;
 
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 
 import java.util.List;
 
@@ -13,16 +13,16 @@ import java.util.List;
 public interface UserDao {
 
 
-    int insert(User user);
+    int insert(User user) throws Exception;
 
 
-    int delete(User user);
+    int delete(User user) throws Exception;
 
-    List<User> select(User user);
+    List<User> select(User user) throws Exception;
 
-    int update(User user);
+    int update(User user) throws Exception;
 
 
-    long count();
+    long count() throws Exception;
 
 }

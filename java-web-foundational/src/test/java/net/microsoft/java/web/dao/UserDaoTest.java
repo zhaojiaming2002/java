@@ -1,16 +1,9 @@
 package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
-import net.microsoft.java.web.dao.impl.PreparedStatementUserDaoImpl;
-import net.microsoft.java.web.dao.impl.QueryRunnerUserDaoImpl;
-import net.microsoft.java.web.dao.impl.StatementUserDaoImplV1;
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +23,7 @@ public class UserDaoTest {
 
 
     @Test
-    public void testInsert() {
+    public void testInsert() throws Exception {
         User user = new User(null, "李瑞华", "123456", LocalDateTime.now(), LocalDateTime.now());
         int insert = userDao.insert(user);
         System.out.println(insert == 1 ? "添加成功" : "添加失败");
@@ -39,7 +32,7 @@ public class UserDaoTest {
 
 
     @Test
-    public void testSelect() {
+    public void testSelect() throws Exception {
 //        User user = new User();
 //        user.setId(12);
 //        List<User> selectUsers = userDao.select(user);
@@ -59,7 +52,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws Exception {
         User user = new User();
         user.setName("李瑞华");
 
@@ -70,7 +63,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws Exception {
         User user = new User();
         user.setId(1);
         user.setPassword("7777777");
@@ -80,7 +73,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testCount() {
+    public void testCount() throws Exception {
         System.out.println("userDao.count() = " + userDao.count());
 
     }

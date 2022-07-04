@@ -1,15 +1,13 @@
 package net.microsoft.java.web.dao.impl;
 
+import net.microsoft.java.web.bean.entity.Account;
 import net.microsoft.java.web.dao.AccountDao;
-import net.microsoft.java.web.entity.Account;
+import net.microsoft.java.web.util.CustomerQueryRunner;
 import net.microsoft.java.web.util.DruidDataSourceUtil;
-import net.microsoft.java.web.util.JDBCUtil;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
+
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,11 +22,11 @@ public class AccountDaoImpl implements AccountDao {
     /**
      * 组合 Dbutils
      */
-    private QueryRunner queryRunner = new QueryRunner(DruidDataSourceUtil.getDataSource());
+    private CustomerQueryRunner queryRunner = new CustomerQueryRunner(DruidDataSourceUtil.getDataSource());
 
 
     @Override
-    public boolean update(String accountName, BigDecimal amount) throws SQLException {
+    public boolean update(String accountName, BigDecimal amount) throws Exception {
         System.out.println(Thread.currentThread().getName() + "当前处理请求的线程名");
         String sql = "update jdbc_account set balance = balance- ?,update_date = now() where name  = ?";
         Connection connection = DruidDataSourceUtil.getConnection();
@@ -38,11 +36,11 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public Account select(String accountName) throws SQLException {
+    public Account select(String accountName) throws Exception {
         String sql = null;
         if (accountName != null && accountName != "") {
             sql = "select id,name,balance,create_date,update_date from jdbc_account where name = ?";
-            Account account = queryRunner.query(sql, new BeanHandler<>(Account.class), accountName);
+            Account account = queryRunner.queryForBean(sql, Account.class, accountName);
             if (account != null) {
                 return account;
             }
@@ -50,38 +48,56 @@ public class AccountDaoImpl implements AccountDao {
         return null;
     }
 
+
     @Override
-    public List<Account> select(Account AccountCondition) {
-        String sql = null;
-        if (AccountCondition != null && AccountCondition.getName() != null) {
-            sql = "select id,name,balance,create_date,update_date from jdbc_account where name = ?";
+    public List<Account> selectAll() throws Exception {
+        String sql = "select id,name,balance,status,create_date,update_date from jdbc_account";
+        List<Account> accountList = queryRunner.queryForBeans(sql, Account.class);
+        if (null != accountList && accountList.size() > 0) {
+            return accountList;
         }
-        if (sql != null && sql != "") {
-            try (
-                    Connection connection = JDBCUtil.getConnection();
-                    PreparedStatement preparedStatement = connection.prepareStatement(sql)
 
-            ) {
-                preparedStatement.setString(1, AccountCondition.getName());
-                ResultSet resultSet = preparedStatement.executeQuery();
-                List<Account> accountList = new ArrayList<>();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String name = resultSet.getString("name");
-                    BigDecimal balance = resultSet.getBigDecimal("balance");
-                    Timestamp createDate = resultSet.getTimestamp("create_date");
-                    Timestamp updateDate = resultSet.getTimestamp("update_date");
-                    accountList.add(new Account(id, name, balance, createDate, updateDate));
-                }
-                if (accountList != null && accountList.size() > 0) {
-                    return accountList;
-                }
+        return null;
+    }
 
+    @Override
+    public Account selectOne(Account accountCondition) throws Exception {
+        String sql = null;
+        if (null != accountCondition && accountCondition.getName() != null && accountCondition.getName() != "") {
+            sql = "select id,name,balance,status,create_date,update_date from jdbc_account where name = ?";
+            Account account = queryRunner.queryForBean(sql, Account.class, accountCondition.getName());
+            if (account != null) {
+                return account;
+            }
+        } else if (null != accountCondition && accountCondition.getId() != null) {
+            sql = "select id,name,balance,status,create_date,update_date from jdbc_account where id = ?";
+            Account account = queryRunner.queryForBean(sql, Account.class, accountCondition.getId());
+            if (null != account) {
+                return account;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean insert(Account account) throws Exception {
+        String sql = "insert into jdbc_account values(null,?,?,1,now(),now())";
+        int row = queryRunner.update(sql, account.getName(), account.getBalance());
+        return row == 1 ? true : false;
+    }
+
+    @Override
+    public boolean delete(Account account) {
+        if (null != account && null != account.getId()) {
+            String sql = "delete from jdbc_account where id = ?";
+            try {
+                int row = queryRunner.update(sql, account.getId());
+                return row == 1 ? true : false;
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException(e.getMessage());
             }
 
         }
-        return null;
+        return false;
     }
 }

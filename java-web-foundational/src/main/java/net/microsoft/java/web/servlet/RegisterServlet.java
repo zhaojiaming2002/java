@@ -4,7 +4,7 @@ package net.microsoft.java.web.servlet; /**
  * @author: suche
  **/
 
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.service.UserService;
 import net.microsoft.java.web.service.impl.UserServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
@@ -13,7 +13,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 @WebServlet("/register")
@@ -37,7 +36,12 @@ public class RegisterServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        boolean register = userService.register(user);
+        boolean register = false;
+        try {
+            register = userService.register(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         response.setContentType("text/html; charset=UTF-8");
 
         if (register) {

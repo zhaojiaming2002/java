@@ -2,9 +2,7 @@ package net.microsoft.java.web.service.impl;
 
 import net.microsoft.java.web.dao.UserDao;
 import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
-import net.microsoft.java.web.dao.impl.PreparedStatementUserDaoImpl;
-import net.microsoft.java.web.dao.impl.QueryRunnerUserDaoImpl;
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.service.UserService;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean login(User user) {
+    public boolean login(User user) throws Exception {
         if (null != user && null != user.getName() && user.getName() != "") {
             if (null != user.getPassword() && user.getPassword() != "") {
                 List<User> userList = userDao.select(user);
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean register(User user) {
+    public boolean register(User user) throws Exception {
         if (null != user && null != user.getName() && user.getName() != "" && user.getPassword() != null && user.getPassword() != "") {
             int row = userDao.insert(user);
             return row == 1 ? true : false;
@@ -53,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<User> findAllUsers() throws Exception {
         List<User> userList = userDao.select(null);
         if (null != userList && userList.size() > 0) {
             return userList;

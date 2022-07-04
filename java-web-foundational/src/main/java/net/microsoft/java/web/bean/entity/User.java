@@ -1,4 +1,4 @@
-package net.microsoft.java.web.entity;
+package net.microsoft.java.web.bean.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

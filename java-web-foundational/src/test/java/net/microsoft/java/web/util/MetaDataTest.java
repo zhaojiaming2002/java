@@ -19,18 +19,20 @@ public class MetaDataTest {
                 Connection connection = JDBCUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
-            // 获取sql参数元数据
-//            ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
-//            int parameterCount = parameterMetaData.getParameterCount();
+//             获取sql参数元数据
+            ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
+            int parameterCount = parameterMetaData.getParameterCount();
+
+/*
+            for (int i = 1; i <= parameterCount; i++) {
+                // 列类型
+                String columnType = parameterMetaData.getParameterTypeName(i);
+                // 数据库类型对应的 Java类型
+                String className = parameterMetaData.getParameterClassName(i);
+                System.out.println("数据库的" + columnType + "对应Java类型是" + className);
+            }*/
 
 
-//            for (int i = 1; i <= parameterCount; i++) {
-//                // 列类型
-//                String columnType = parameterMetaData.getParameterTypeName(i);
-//                // 数据库类型对应的 Java类型
-//                String className = parameterMetaData.getParameterClassName(i);
-//                System.out.println("数据库的" + columnType + "对应Java类型是" + className);
-//            }
             // 获取结果集的元数据
             ResultSetMetaData resultSetMetaData = preparedStatement.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
@@ -75,9 +77,11 @@ public class MetaDataTest {
                 PreparedStatement preparedStatement = connection.prepareStatement("select * from jdbc_user");
         ) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            Object id = resultSet.getObject("id");
-            System.out.println(id);
+            while (resultSet.next()) {
+                Object id = resultSet.getObject("id");
+                System.out.println(id);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

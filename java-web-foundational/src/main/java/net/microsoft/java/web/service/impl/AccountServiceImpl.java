@@ -1,14 +1,17 @@
 package net.microsoft.java.web.service.impl;
 
+import net.microsoft.java.web.bean.entity.Account;
+import net.microsoft.java.web.bean.vo.AccountVO;
 import net.microsoft.java.web.dao.AccountDao;
 import net.microsoft.java.web.dao.impl.AccountDaoImpl;
-import net.microsoft.java.web.entity.Account;
+
 import net.microsoft.java.web.service.AccountService;
 import net.microsoft.java.web.util.DruidDataSourceUtil;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public boolean transferAccounts(String fromAccountName, String toAccountName, BigDecimal amount) {
+    public boolean transferAccounts(String fromAccountName, String toAccountName, BigDecimal amount) throws Exception {
         System.out.println(Thread.currentThread().getName() + "当前处理请求的线程名");
         boolean result = false;
         Connection connection = null;
@@ -70,20 +73,76 @@ public class AccountServiceImpl implements AccountService {
             }
 
         } catch (Exception e) {
-            try {
-                e.printStackTrace();
-                System.out.println("遇到异常回滚");
 
-                connection.rollback();
-                throw new RuntimeException(e.getMessage());
-            } catch (SQLException sql) {
-                sql.printStackTrace();
-            }
+            System.out.println("遇到异常回滚");
+            connection.rollback();
+            throw new RuntimeException(e.getMessage());
         }
 
 
         return result;
     }
 
+    /**
+     * 查询jdbc_account 所有用户
+     *
+     * @return 返回AccountVO 集合
+     * @throws Exception
+     */
+    @Override
+    public List<AccountVO> selectAll() throws Exception {
+        List<Account> accountList = accountDao.selectAll();
+        if (null != accountList && accountList.size() > 0) {
+            List<AccountVO> accountVOList = new ArrayList<>();
+            for (Account account : accountList) {
+                accountVOList.add(new AccountVO(account.getId(), account.getName(), account.getBalance(),
+                        account.getStatus(), account.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
+                        , account.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                );
+            }
+            return accountVOList;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean insert(Account account) throws Exception {
+        if (account != null && account.getName() != "") {
+            try {
+
+                Account accountResult = accountDao.selectOne(account);
+                if (accountResult == null) {
+                    boolean insert = accountDao.insert(account);
+                    return insert;
+                } else {
+                    throw new RuntimeException("用户已经存在");
+                }
+            } catch (Exception e) {
+                throw new Exception(e.getMessage());
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteAccountById(Long id) {
+
+        try {
+//            手动造异常
+//            System.out.println(1 / 0);
+            Account accountCondition = new Account(id);
+            Account account = accountDao.selectOne(accountCondition);
+            if (null != account) {
+                return accountDao.delete(account);
+            }
+            throw new RuntimeException("删除失败，账户不存在");
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
 }
+

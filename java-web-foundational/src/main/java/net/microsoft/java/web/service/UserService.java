@@ -1,6 +1,6 @@
 package net.microsoft.java.web.service;
 
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    boolean login(User user);
+    boolean login(User user) throws Exception;
 
 
     /**
@@ -27,14 +27,14 @@ public interface UserService {
      * @param user
      * @return
      */
-    boolean register(User user);
+    boolean register(User user) throws Exception;
 
     /**
      * 获取所有用户
      *
      * @return
      */
-    public List<User> findAllUsers();
+    public List<User> findAllUsers() throws Exception;
 
 
 }

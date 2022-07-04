@@ -1,6 +1,6 @@
 package net.microsoft.java.web.service;
 
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.service.impl.UserServiceImpl;
 import org.testng.annotations.Test;
 
@@ -16,7 +16,7 @@ public class UserServiceTest {
     UserService userService = new UserServiceImpl();
 
     @Test
-    public void testLogin() {
+    public void testLogin() throws Exception {
         User user = new User();
         user.setName("李瑞华");
         user.setPassword("7777777");
@@ -26,7 +26,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void testRegister() {
+    public void testRegister() throws Exception {
         User user = new User();
         user.setName("李瑞华");
         user.setPassword("7777777");
@@ -35,7 +35,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testFinaAllUsers() {
+    public void testFinaAllUsers() throws Exception {
         List<User> allUsers = userService.findAllUsers();
         System.out.println(allUsers);
     }

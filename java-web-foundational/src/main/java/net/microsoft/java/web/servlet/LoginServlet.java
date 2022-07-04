@@ -4,22 +4,16 @@ package net.microsoft.java.web.servlet; /**
  * @author: suche
  **/
 
-import com.wf.captcha.utils.CaptchaUtil;
-import net.microsoft.java.web.entity.User;
+import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.service.UserService;
 import net.microsoft.java.web.service.impl.UserServiceImpl;
 import net.microsoft.java.web.util.CookieConfig;
 import net.microsoft.java.web.util.CookieUtil;
-import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.util.Map;
-import java.util.concurrent.Executor;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -30,10 +24,11 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 设置请求编码
+        System.out.println("调用了LoginServlet doGet方法");
+        // 处理POST请求乱码
         request.setCharacterEncoding("UTF-8");
-        // 设置响应编码
-        response.setCharacterEncoding("UTF-8");
+        // 处理POST请求响应乱码
+        response.setContentType("text/html;charset=utf-8");
 
 
         String captcha = (String) request.getSession().getAttribute("captcha");
@@ -48,7 +43,12 @@ public class LoginServlet extends HttpServlet {
             User user = new User();
             user.setName(name);
             user.setPassword(password);
-            boolean login = userService.login(user);
+            boolean login = false;
+            try {
+                login = userService.login(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             if (login) {
                 String renumber = request.getParameter("renumber");
@@ -80,7 +80,6 @@ public class LoginServlet extends HttpServlet {
                     CookieUtil.removeCookie(nameConfig, response);
                     CookieUtil.removeCookie(passwordConfig, response);
                     request.getSession().removeAttribute("user");
-                    System.out.println(request.getSession().getAttribute("user"));
                 }
                 // 登录成功
                 request.getSession().setAttribute("user", user);

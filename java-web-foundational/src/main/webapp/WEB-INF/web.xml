@@ -47,4 +47,21 @@
         <url-pattern>/captcha</url-pattern>
     </servlet-mapping>
 
+<!--
+
+ filter-mapper先通过url-pattern匹配到然后再通过filter-name找到filter的filter-name.在调用filter-class
+ -->
+
+
+
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>net.microsoft.java.web.filter.LoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+    </filter-mapping>
+
 </web-app>

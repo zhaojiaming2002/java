@@ -1,4 +1,4 @@
-<%@ page import="net.microsoft.java.web.entity.User" %><%--
+<%@ page import="net.microsoft.java.web.bean.entity.User" %><%--
   Created by IntelliJ IDEA.
   User: 75863
   Date: 2022/6/8
