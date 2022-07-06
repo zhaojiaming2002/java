@@ -72,4 +72,13 @@ public interface AccountDao {
 
     boolean delete(Account account);
 
+    /**
+     * 更新用户信息
+     *
+     * @param account
+     * @return
+     * @throws Exception
+     */
+    boolean update(Account account) throws Exception;
+
 }

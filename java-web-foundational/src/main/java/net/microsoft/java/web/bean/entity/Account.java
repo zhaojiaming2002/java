@@ -55,6 +55,19 @@ public class Account {
     public Account() {
     }
 
+    public Account(String name, BigDecimal balance, Integer status) {
+        this.name = name;
+        this.balance = balance;
+        this.status = status;
+    }
+
+    public Account(Long id, String name, BigDecimal balance, Integer status) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+        this.status = status;
+    }
+
     public Account(Long id) {
         this.id = id;
     }

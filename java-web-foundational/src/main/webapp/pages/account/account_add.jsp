@@ -15,6 +15,7 @@
 <form action="${pageContext.request.contextPath}/account?method=addAccount" method="post">
     用户名:<input type="text" name="name" autocomplete="off"/><br/>
     账户余额:<input type="text" name="balance" autocomplete="off"/><br/>
+    状态:<input type="text" name="status" value="${account.status}"/><br/>
     <input type="submit" value="提交"><br/>
 </form>
 </body>

@@ -59,4 +59,18 @@ public interface AccountService {
      */
     boolean deleteAccountById(Long id);
 
+    /**
+     * 根据Id更新用户
+     * @param account
+     * @return
+     */
+    boolean updateAccountById(Account account);
+
+    /**
+     * 根据Id查询用户
+     * @param id
+     * @return
+     */
+    Account findUserById(Long id);
+
 }

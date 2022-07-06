@@ -81,8 +81,8 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public boolean insert(Account account) throws Exception {
-        String sql = "insert into jdbc_account values(null,?,?,1,now(),now())";
-        int row = queryRunner.update(sql, account.getName(), account.getBalance());
+        String sql = "insert into jdbc_account values(null,?,?,?,now(),now())";
+        int row = queryRunner.update(sql, account.getName(), account.getBalance(), account.getStatus());
         return row == 1 ? true : false;
     }
 
@@ -97,6 +97,16 @@ public class AccountDaoImpl implements AccountDao {
                 throw new RuntimeException(e.getMessage());
             }
 
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update(Account account) throws Exception {
+        if (null != account && account.getId() != null) {
+            String sql = "update jdbc_account set name=?,balance=?,status=?,update_date=now() where id=?";
+            int row = queryRunner.update(sql, account.getName(), account.getBalance(), account.getStatus(), account.getId());
+            return row == 1 ? true : false;
         }
         return false;
     }

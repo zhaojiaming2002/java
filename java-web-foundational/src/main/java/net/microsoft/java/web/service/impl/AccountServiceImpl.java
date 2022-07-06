@@ -144,5 +144,36 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
+    public boolean updateAccountById(Account account) {
+        if (null != account && account.getId() != null) {
+            try {
+                Account accountResult = accountDao.selectOne(new Account(account.getId()));
+                if (accountResult != null) {
+                    return accountDao.update(account);
+                }
+                throw new RuntimeException("账号不存在");
+
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Account findUserById(Long id) {
+        try {
+            Account account = accountDao.selectOne(new Account(id));
+            if (account != null) {
+                return account;
+            }
+            throw new RuntimeException("用户不存在");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
 }
 

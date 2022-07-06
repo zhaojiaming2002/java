@@ -56,8 +56,7 @@ public class AccountDaoTest {
     @Test
     public void testSelectOne() {
         try {
-            Account accountCondition = new Account();
-            accountCondition.setId(16L);
+            Account accountCondition = new Account(8L);
             Account account = accountDao.selectOne(accountCondition);
             System.out.println(account);
 
@@ -87,5 +86,15 @@ public class AccountDaoTest {
 
     }
 
+    @Test
+    public void testUpdateAccountById() {
+        Account account = new Account(11L, "wangbaoqiang", new BigDecimal("1000000000"), 0);
+        try {
+            boolean updateResult = accountDao.update(account);
+            Assert.assertEquals(updateResult, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -26,33 +26,81 @@ public class AccountServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String errorMessage = null;
         response.setContentType("text/html;charset=utf-8");
         String method = request.getParameter("method");
         if ("findAllUser".equals(method)) {
             findAllUser(request, response);
         } else if ("addAccount".equals(method)) {
-            String name = request.getParameter("name");
-            String balance = request.getParameter("balance");
-            errorMessage = validation(name, balance);
-            if (errorMessage == null) {
-                try {
-                    Account account = new Account(name, new BigDecimal(balance));
-                    boolean insert = accountService.insert(account);
-                    if (insert) {
-                        response.sendRedirect("account?method=findAllUser");
-                    }
-                } catch (Exception e) {
-                    errorMessage = e.getMessage();
-                    request.setAttribute("errorMessage", errorMessage);
-                    request.getRequestDispatcher("pages/account/account_add.jsp").forward(request, response);
-                }
-            } else {
-                request.setAttribute("errorMessage", errorMessage);
-                request.getRequestDispatcher("pages/account/account_add.jsp").forward(request, response);
-            }
+            addAccount(request, response);
         } else if ("deleteAccountById".equals(method)) {
             deleteAccountById(request, response);
+        } else if ("updateAccountPage".equals(method)) {
+            updateAccountPage(request, response);
+        } else if ("updateAccountById".equals(method)) {
+            updateAccountById(request, response);
+        }
+    }
+
+    public void updateAccountById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = Long.valueOf(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String balance = request.getParameter("balance");
+        String status = request.getParameter("status");
+        String errorMessage = validation(name, balance, status);
+        if (errorMessage == null) {
+
+            try {
+                Account account = new Account(id, name, new BigDecimal(balance), Integer.parseInt(status));
+                boolean updateResult = accountService.updateAccountById(account);
+                if (updateResult) {
+                    response.sendRedirect("account?method=findAllUser");
+                }
+
+            } catch (Exception e) {
+                errorMessage = e.getMessage();
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("pages/account/account_update.jsp").forward(request, response);
+            }
+        } else {
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("account?method=updateAccountPage").forward(request, response);
+        }
+
+    }
+
+    public void updateAccountPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = Long.valueOf(request.getParameter("id"));
+
+        Account findAccountResult = accountService.findUserById(id);
+        if (findAccountResult != null) {
+            request.setAttribute("account", findAccountResult);
+            request.getRequestDispatcher("pages/account/account_update.jsp").forward(request, response);
+        }
+    }
+
+    public void addAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String errorMessage = null;
+        String name = request.getParameter("name");
+        String balance = request.getParameter("balance");
+        String status = request.getParameter("status");
+        errorMessage = validation(name, balance, status);
+        if (errorMessage == null) {
+            try {
+                Account account = new Account(name, new BigDecimal(balance), Integer.parseInt(status));
+                boolean insert = accountService.insert(account);
+                if (insert) {
+                    response.sendRedirect("account?method=findAllUser");
+                }
+            } catch (Exception e) {
+                errorMessage = e.getMessage();
+                request.setAttribute("errorMessage", errorMessage);
+
+                request.getRequestDispatcher("pages/account/account_add.jsp").forward(request, response);
+
+            }
+        } else {
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("pages/account/account_add.jsp").forward(request, response);
         }
     }
 
@@ -107,12 +155,15 @@ public class AccountServlet extends HttpServlet {
      * 验证用户输入
      */
 
-    public String validation(String name, String balance) {
+    public String validation(String name, String balance, String status) {
         String errorMessage = null;
-        String regex = "[0-9]+";
+        String regex = "[0-9.]+";
         if (!balance.matches(regex)) {
-            return "余额必须为数字";
+            errorMessage = "余额必须为数字";
+            return errorMessage;
         }
+
+
         if (null != name && name != "") {
             if (null != balance && balance != "" && new BigDecimal(balance).compareTo(BigDecimal.ZERO) != -1) {
                 return errorMessage;

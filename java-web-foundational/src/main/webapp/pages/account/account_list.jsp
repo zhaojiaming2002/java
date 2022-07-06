@@ -39,6 +39,7 @@
             <td>${account.createDate}</td>
             <td>${account.updateDate}</td>
             <td><a href="#" onclick="deleteAccountById('${account.id}','${account.name}')">删除</a></td>
+            <td><a href="#" onclick="updateAccountById('${account.id}','${account.name}')">修改</a></td>
         </tr>
     </c:forEach>
 
@@ -52,6 +53,14 @@
         if (flag) {
             window.location.href = "${pageContext.request.contextPath}/account?method=deleteAccountById&id=" + id;
         }
+    }
+
+    function updateAccountById(id, name) {
+        let flag = confirm("你要修改" + name + "吗?");
+        if (flag) {
+            window.location.href = "${pageContext.request.contextPath}/account?method=updateAccountPage&id=" + id;
+        }
+
     }
 </script>
 </body>

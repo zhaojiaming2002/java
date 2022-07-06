@@ -71,5 +71,13 @@ public class AccountServiceTest {
 
     }
 
+    @Test
+    public void testUpdateAccountById() {
+        boolean updateResult = accountService.updateAccountById(new Account(11L, "王宝强", new BigDecimal("888888888.00"), 1));
+        Assert.assertEquals(updateResult, true);
+        System.out.println(updateResult);
+
+    }
+
 
 }
