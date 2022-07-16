@@ -14,7 +14,7 @@ public class MetaDataTest {
 
 
     public static void main(String[] args) {
-        String sql = "select id,name,password,create_date,update_date from jdbc_user where id = ? and name = ?";
+        String sql = "select id,name,password,create_date,update_date from jdbc_user";
         try (
                 Connection connection = JDBCUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
@@ -35,18 +35,25 @@ public class MetaDataTest {
 
             // 获取结果集的元数据
             ResultSetMetaData resultSetMetaData = preparedStatement.getMetaData();
-            int columnCount = resultSetMetaData.getColumnCount();
 
-            for (int i = 1; i <= columnCount; i++) {
-                // 获取列名
-                String columnName = resultSetMetaData.getColumnName(i);
-                // 获取列类型
-                String columnType = resultSetMetaData.getColumnTypeName(i);
-                // 获取对应的Java类型
-                String columnClassName = resultSetMetaData.getColumnClassName(i);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSetMetaData metaData = resultSet.getMetaData();
 
-                System.out.println("数据库的列名" + columnName + "数据库的类型" + columnType + "对用Java类型" + columnClassName);
-            }
+            System.out.println(resultSetMetaData.getColumnName(1));
+            System.out.println(metaData.getColumnName(1));
+
+//            int columnCount = resultSetMetaData.getColumnCount();
+//
+//            for (int i = 1; i <= columnCount; i++) {
+//                // 获取列名
+//                String columnName = resultSetMetaData.getColumnName(i);
+//                // 获取列类型
+//                String columnType = resultSetMetaData.getColumnTypeName(i);
+//                // 获取对应的Java类型
+//                String columnClassName = resultSetMetaData.getColumnClassName(i);
+//
+//                System.out.println("数据库的列名" + columnName + "数据库的类型" + columnType + "对用Java类型" + columnClassName);
+//            }
 
 
         } catch (Exception e) {

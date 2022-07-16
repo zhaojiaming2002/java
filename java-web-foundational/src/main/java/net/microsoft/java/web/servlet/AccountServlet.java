@@ -7,6 +7,7 @@ package net.microsoft.java.web.servlet;
 
 import net.microsoft.java.web.bean.entity.Account;
 import net.microsoft.java.web.bean.vo.AccountVO;
+import net.microsoft.java.web.bean.vo.PageBean;
 import net.microsoft.java.web.service.AccountService;
 import net.microsoft.java.web.service.impl.AccountServiceImpl;
 
@@ -15,68 +16,16 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/account")
-public class AccountServlet extends HttpServlet {
+public class AccountServlet extends BaseServlet {
     /**
      * 依赖AccountService
      */
     private AccountService accountService = new AccountServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
-        String method = request.getParameter("method");
-        if ("findAllUser".equals(method)) {
-            findAllUser(request, response);
-        } else if ("addAccount".equals(method)) {
-            addAccount(request, response);
-        } else if ("deleteAccountById".equals(method)) {
-            deleteAccountById(request, response);
-        } else if ("updateAccountPage".equals(method)) {
-            updateAccountPage(request, response);
-        } else if ("updateAccountById".equals(method)) {
-            updateAccountById(request, response);
-        }
-    }
-
-    public void updateAccountById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long id = Long.valueOf(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String balance = request.getParameter("balance");
-        String status = request.getParameter("status");
-        String errorMessage = validation(name, balance, status);
-        if (errorMessage == null) {
-
-            try {
-                Account account = new Account(id, name, new BigDecimal(balance), Integer.parseInt(status));
-                boolean updateResult = accountService.updateAccountById(account);
-                if (updateResult) {
-                    response.sendRedirect("account?method=findAllUser");
-                }
-
-            } catch (Exception e) {
-                errorMessage = e.getMessage();
-                request.setAttribute("errorMessage", errorMessage);
-                request.getRequestDispatcher("pages/account/account_update.jsp").forward(request, response);
-            }
-        } else {
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("account?method=updateAccountPage").forward(request, response);
-        }
-
-    }
-
-    public void updateAccountPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long id = Long.valueOf(request.getParameter("id"));
-
-        Account findAccountResult = accountService.findUserById(id);
-        if (findAccountResult != null) {
-            request.setAttribute("account", findAccountResult);
-            request.getRequestDispatcher("pages/account/account_update.jsp").forward(request, response);
-        }
-    }
 
     public void addAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String errorMessage = null;
@@ -177,9 +126,80 @@ public class AccountServlet extends HttpServlet {
 
     }
 
-    @Override
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+    public void updateAccountById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = Long.valueOf(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String balance = request.getParameter("balance");
+        String status = request.getParameter("status");
+        String errorMessage = validation(name, balance, status);
+        if (errorMessage == null) {
+
+            try {
+                Account account = new Account(id, name, new BigDecimal(balance), Integer.parseInt(status));
+                boolean updateResult = accountService.updateAccountById(account);
+                if (updateResult) {
+                    response.sendRedirect("account?method=findAllUser");
+                }
+
+            } catch (Exception e) {
+                errorMessage = e.getMessage();
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("pages/account/account_update.jsp").forward(request, response);
+            }
+        } else {
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("account?method=updateAccountPage").forward(request, response);
+        }
+
     }
+
+    public void updateAccountPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = Long.valueOf(request.getParameter("id"));
+
+        Account findAccountResult = accountService.findUserById(id);
+        if (findAccountResult != null) {
+            request.setAttribute("account", findAccountResult);
+            request.getRequestDispatcher("pages/account/account_update.jsp").forward(request, response);
+        }
+    }
+
+    public void findAccountByPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Integer pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+
+        PageBean<AccountVO> pageBean = new PageBean<>();
+        // 设置页码
+        pageBean.setPageNo(pageNo);
+        // 设置显示条数
+        pageBean.setPageSize(pageSize);
+
+        // 获取查询分页的数据
+        List<AccountVO> accountByPage = accountService.findAccountByPage(pageNo, pageSize);
+        Long totalCount = accountService.totalCount();
+        pageBean.setDataList(accountByPage);
+        // 设置总条数
+        pageBean.setTotalCount(totalCount);
+        Long totalCountPage = accountService.totalCountPage(pageSize);
+        // 设置总页数
+        pageBean.setTotalCountPage(totalCountPage);
+        if (accountByPage != null && accountByPage.size() > 0) {
+            request.setAttribute("pageBean", pageBean);
+            request.getRequestDispatcher("pages/account/account_list_byPage.jsp").forward(request, response);
+        }
+
+    }
+
+    public void findAccountByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userName = request.getParameter("userName");
+        AccountVO accountVO = accountService.findAccountByName(userName);
+        PageBean<AccountVO> pageBean = new PageBean<>();
+        pageBean.setDataList(new ArrayList<>(List.of(accountVO)));
+        request.setAttribute("pageBean", pageBean);
+        request.getRequestDispatcher("pages/account/account_list_byPage.jsp").forward(request, response);
+
+    }
+
+
 }

@@ -93,13 +93,7 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountVO> selectAll() throws Exception {
         List<Account> accountList = accountDao.selectAll();
         if (null != accountList && accountList.size() > 0) {
-            List<AccountVO> accountVOList = new ArrayList<>();
-            for (Account account : accountList) {
-                accountVOList.add(new AccountVO(account.getId(), account.getName(), account.getBalance(),
-                        account.getStatus(), account.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
-                        , account.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
-                );
-            }
+            List<AccountVO> accountVOList = account2AccountVO(accountList);
             return accountVOList;
         }
         return null;
@@ -172,6 +166,99 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public List<AccountVO> findAccountByPage(Integer pageNo, Integer pageSize) {
+        try {
+            List<Account> accountList = accountDao.selectAccountByPage(pageNo, pageSize);
+            if (accountList != null && accountList.size() > 0) {
+                List<AccountVO> accountVOList = account2AccountVO(accountList);
+                return accountVOList;
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return null;
+
+    }
+
+    @Override
+    public Long totalCount() {
+        try {
+            Long totalCount = accountDao.totalCount();
+            if (totalCount != null) {
+                return totalCount;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Long totalCountPage(Integer pageSize) {
+        try {
+            Long totalCount = accountDao.totalCount();
+
+            return totalCount % pageSize == 0 ? totalCount / pageSize : totalCount / pageSize + 1;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+
+    }
+
+
+    /**
+     * Account 转换 AccountVO
+     *
+     * @param accountList
+     * @return
+     */
+    public List<AccountVO> account2AccountVO(List<Account> accountList) {
+
+        if (accountList != null && accountList.size() > 0) {
+            List<AccountVO> accountVOList = new ArrayList<>();
+            for (Account account : accountList) {
+                accountVOList.add(new AccountVO(account.getId(), account.getName(), account.getBalance(),
+                        account.getStatus(), account.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
+                        , account.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                );
+            }
+            return accountVOList;
+        }
+        return null;
+    }
+
+    public AccountVO account2AccountVO(Account account) {
+
+        if (account != null) {
+            AccountVO accountVO = new AccountVO(account.getId(), account.getName(), account.getBalance(),
+                    account.getStatus(), account.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
+                    , account.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+            return accountVO;
+        }
+
+        return null;
+    }
+
+    @Override
+    public AccountVO findAccountByName(String name) {
+        try {
+            Account account = accountDao.selectOne(new Account(name));
+            AccountVO accountVO = account2AccountVO(account);
+            if (accountVO != null) {
+                return accountVO;
+            }
+
+            throw new RuntimeException("用户不存在");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
 

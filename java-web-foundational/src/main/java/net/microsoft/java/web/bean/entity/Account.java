@@ -25,6 +25,10 @@ public class Account {
      */
     private BigDecimal balance;
 
+    public Account(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Account{" +

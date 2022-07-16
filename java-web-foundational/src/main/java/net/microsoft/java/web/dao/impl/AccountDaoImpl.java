@@ -110,4 +110,26 @@ public class AccountDaoImpl implements AccountDao {
         }
         return false;
     }
+
+    @Override
+    public Long totalCount() throws Exception {
+        String sql = "select count(*) from jdbc_account";
+        Long totalCountResult = queryRunner.queryForType(sql, Long.class);
+        if (totalCountResult != null) {
+            return totalCountResult;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Account> selectAccountByPage(Integer pageNo, Integer pageSize) throws Exception {
+        String sql = "select id,name,balance,status,create_date,update_date from jdbc_account limit ?,?";
+        List<Account> accountListByPage = queryRunner.queryForBeans(sql, Account.class, (pageNo - 1) * pageSize, pageSize);
+        if (accountListByPage != null && accountListByPage.size() > 0) {
+            return accountListByPage;
+        }
+        return null;
+    }
+
 }

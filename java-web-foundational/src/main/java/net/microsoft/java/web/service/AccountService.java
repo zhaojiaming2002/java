@@ -61,6 +61,7 @@ public interface AccountService {
 
     /**
      * 根据Id更新用户
+     *
      * @param account
      * @return
      */
@@ -68,9 +69,43 @@ public interface AccountService {
 
     /**
      * 根据Id查询用户
+     *
      * @param id
      * @return
      */
     Account findUserById(Long id);
+
+    /**
+     * 查询用户分页显示
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    List<AccountVO> findAccountByPage(Integer pageNo, Integer pageSize);
+
+
+    /**
+     * 总条数
+     *
+     * @return
+     */
+    Long totalCount();
+
+
+    /**
+     * 设置总页数
+     *
+     * @return
+     */
+    Long totalCountPage(Integer pageSize);
+
+    /**
+     * 根据用户名查询
+     *
+     * @param name
+     * @return
+     */
+    AccountVO findAccountByName(String name);
 
 }

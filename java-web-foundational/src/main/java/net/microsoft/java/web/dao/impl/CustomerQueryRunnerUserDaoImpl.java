@@ -30,7 +30,7 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
     }
 
     @Override
-    public int delete(User user) throws Exception  {
+    public int delete(User user) throws Exception {
         String sql = null;
         if (null != user && user.getId() != null) {
             sql = "delete from jdbc_user where id=?";

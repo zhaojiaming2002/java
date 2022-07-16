@@ -3,8 +3,9 @@ package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.bean.entity.Account;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
-
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -80,5 +81,24 @@ public interface AccountDao {
      * @throws Exception
      */
     boolean update(Account account) throws Exception;
+
+    /**
+     * 一共多少条记录
+     *
+     * @return
+     * @throws SQLException
+     */
+    Long totalCount() throws Exception;
+
+    /**
+     * 查询账号分页
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    List<Account> selectAccountByPage(Integer pageNo, Integer pageSize) throws Exception;
+
 
 }

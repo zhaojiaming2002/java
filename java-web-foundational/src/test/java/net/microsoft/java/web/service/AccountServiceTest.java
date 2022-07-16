@@ -80,4 +80,15 @@ public class AccountServiceTest {
     }
 
 
+    @Test
+    public void testFindAccountByPage() {
+        try {
+            List<AccountVO> accountByPage = accountService.findAccountByPage(2, 2);
+            System.out.println(accountByPage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

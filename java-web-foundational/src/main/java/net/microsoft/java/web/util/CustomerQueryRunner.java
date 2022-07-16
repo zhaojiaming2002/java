@@ -190,11 +190,12 @@ public class CustomerQueryRunner {
 
                 // 反射获取方法
                 Method[] methods = clazz.getMethods();
-                ResultSetMetaData metaData = preparedStatement.getMetaData();
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
                     T instance = clazz.newInstance();
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+
                     for (int i = 1; i <= metaData.getColumnCount(); i++) {
                         // 获取列名
                         String columnName = metaData.getColumnName(i);
@@ -239,25 +240,23 @@ public class CustomerQueryRunner {
      * @return 返回实体类型的集合
      */
     public <T> List<T> queryForBeans(String sql, Class<T> clazz, Object... params) throws Exception {
-        if (null != sql && sql != "") {
+        if (null != dataSource && null != sql && sql != "") {
             try (
                     Connection connection = dataSource.getConnection();
                     PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ) {
-
+                //获取SQL参数的元数据
                 ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
-                int parameterCount = parameterMetaData.getParameterCount();
-                for (int i = 0; i < parameterCount; i++) {
-                    preparedStatement.setObject(i + 1, params[i]);
+                //给占位的参数设值
+                for (int i = 1; i <= parameterMetaData.getParameterCount(); i++) {
+                    preparedStatement.setObject(i, params[i - 1]);
                 }
-
-                ResultSetMetaData resultMetaData = preparedStatement.getMetaData();
                 ResultSet resultBeansSet = preparedStatement.executeQuery();
-
                 List<T> listBeans = new ArrayList<>();
 
                 while (resultBeansSet.next()) {
                     T instance = clazz.newInstance();
+                    ResultSetMetaData resultMetaData = resultBeansSet.getMetaData();
 
                     for (int i = 1; i <= resultMetaData.getColumnCount(); i++) {
                         String columnName = resultMetaData.getColumnName(i);
@@ -276,13 +275,16 @@ public class CustomerQueryRunner {
                             }
                         }
                     }
-                    listBeans.add(instance);
-                }
-//                System.out.println(listBeans.size());
+                    if (null != instance) {
+                        listBeans.add(instance);
+                    }
 
-                return listBeans;
+                }
+                if (null != listBeans && listBeans.size() > 0) {
+                    return listBeans;
+                }
             } catch (Exception e) {
-                throw new Exception(e);
+                throw new Exception(e.getMessage());
             }
 
 

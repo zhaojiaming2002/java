@@ -2,6 +2,9 @@ package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.bean.entity.Account;
 import net.microsoft.java.web.dao.impl.AccountDaoImpl;
+import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
+import net.microsoft.java.web.util.CustomerQueryRunner;
+import net.microsoft.java.web.util.DruidDataSourceUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -96,5 +99,30 @@ public class AccountDaoTest {
             e.printStackTrace();
         }
     }
+
+
+    @Test
+    public void testTotalCount() {
+        try {
+            Long totalCountResult = accountDao.totalCount();
+            Assert.assertEquals(totalCountResult.longValue(), 10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Test
+    public void testSelectAccountByPage() {
+        try {
+            List<Account> accountList = accountDao.selectAccountByPage(2, 2);
+            System.out.println(accountList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }
