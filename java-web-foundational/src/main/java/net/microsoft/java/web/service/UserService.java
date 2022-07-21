@@ -36,5 +36,13 @@ public interface UserService {
      */
     public List<User> findAllUsers() throws Exception;
 
+    /**
+     * 检查用户是否存在
+     *
+     * @param name
+     * @return
+     */
+    boolean checkName(String name);
+
 
 }

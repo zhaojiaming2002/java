@@ -1,7 +1,8 @@
 package net.microsoft.java.web.bean.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -15,18 +16,26 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     private String password;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
     private LocalDateTime createDate;
-    private LocalDateTime upDateDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    private LocalDateTime updateDate;
 
     public User() {
     }
 
-    public User(Integer id, String name, String password, LocalDateTime createDate, LocalDateTime upDateDate) {
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User(Integer id, String name, String password, LocalDateTime createDate, LocalDateTime updateDate) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.createDate = createDate;
-        this.upDateDate = upDateDate;
+        this.updateDate = updateDate;
     }
 
     public Integer getId() {
@@ -62,11 +71,11 @@ public class User implements Serializable {
     }
 
     public LocalDateTime getUpdateDate() {
-        return upDateDate;
+        return updateDate;
     }
 
     public void setUpdateDate(LocalDateTime upDateDate) {
-        this.upDateDate = upDateDate;
+        this.updateDate = upDateDate;
     }
 
     @Override
@@ -76,7 +85,7 @@ public class User implements Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", createDate=" + createDate +
-                ", upDateDate=" + upDateDate +
+                ", upDateDate=" + updateDate +
                 '}';
     }
 }

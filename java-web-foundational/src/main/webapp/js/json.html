@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>前端的JSON </title>
+</head>
+<body>
+<h1>前端JSON的使用</h1>
+<script>
+    let json = {
+        "orderId": "100001",
+        "OrderNo": "TB100001",
+        "address": {"province": "河南", "city": "洛阳", "country": "涧西区"}
+        ,
+        "product": [{"productId": "1001", "productName": "Iphone12", "price": "4999"}, {
+            "productId": "1001",
+            "productName": "Iphone13",
+            "price": "5999"
+        }]
+    };
+    console.log(json.orderId);
+    console.log(json.OrderNo);
+    console.log(json.address.province + json.address.city + json.address.country);
+    console.log(json.product[0].productId + json.product[0].productName + json.product[0].price);
+    console.log(json.product[1].productId + json.product[1].productName + json.product[1].price);
+</script>
+</body>
+</html>

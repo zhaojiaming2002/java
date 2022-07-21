@@ -2,6 +2,7 @@ package net.microsoft.java.web.dao;
 
 import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
 import net.microsoft.java.web.bean.entity.User;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
@@ -42,10 +43,9 @@ public class UserDaoTest {
 //        }
         User user = new User();
         user.setName("李瑞华");
-        user.setPassword("2222222");
         List<User> select = userDao.select(user);
+        Assert.assertNotNull(select);
         System.out.println(select);
-
 //        List<User> userList = userDao.select(user);
 //        System.out.println(userList);
 

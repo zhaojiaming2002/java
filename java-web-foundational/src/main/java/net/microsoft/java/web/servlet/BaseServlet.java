@@ -17,8 +17,11 @@ import java.lang.reflect.Method;
 public class BaseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 设置请求编码
+        request.setCharacterEncoding("utf-8");
+        // 设置响应编码
+        response.setCharacterEncoding("utf-8");
         // 设置响应格式
-        response.setContentType("text/html;charset=utf-8");
         String method = request.getParameter("method");
         try {
             Method[] publicMethod = this.getClass().getMethods();

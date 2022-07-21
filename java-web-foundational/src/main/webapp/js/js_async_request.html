@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript发送异步请求</title>
+</head>
+<body>
+<div style="color: red;" id="detail"></div>
+<a href="../handle?name=tony">发送同步请求</a></br>
+<a href="#" onclick="sendGetRequest()">发送Get异步请求</a></br>
+<a href="#" onclick="sendPostRequest()">发送Post异步请求</a></br>
+
+
+<script>
+    function sendGetRequest() {
+        // 创建 XMLHttpRequest（XHR）对象用于与服务器交互
+        let xhr = new XMLHttpRequest();
+        // 初始化一个请求
+        xhr.open("GET", "../handle?name=tony");
+        // 发送请求。如果请求是异步的（默认），那么该方法将在请求发送后立即返回。
+        xhr.send();
+        // 当 readyState 属性发生变化时，调用的 event handler。
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                document.querySelector("#detail").innerHTML = xhr.responseText;
+            }
+
+        }
+
+    }
+
+    function sendPostRequest() {
+        // 创建 XMLHttpRequest（XHR）对象用于与服务器交互
+        let xhr = new XMLHttpRequest();
+        // 初始化一个请求
+        xhr.open("POST", "../handle?name=tony");
+        // 设置请求头
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // 发送请求
+        xhr.send();
+        // 当readyState 属性发生变化时
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                document.querySelector("#detail").innerHTML = xhr.responseText;
+            }
+
+        }
+
+    }
+
+</script>
+</body>
+</html>

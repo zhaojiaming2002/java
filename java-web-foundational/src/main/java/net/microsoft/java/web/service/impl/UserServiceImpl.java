@@ -3,6 +3,7 @@ package net.microsoft.java.web.service.impl;
 import net.microsoft.java.web.dao.UserDao;
 import net.microsoft.java.web.dao.impl.CustomerQueryRunnerUserDaoImpl;
 import net.microsoft.java.web.bean.entity.User;
+import net.microsoft.java.web.exception.BusinessException;
 import net.microsoft.java.web.service.UserService;
 
 import java.util.List;
@@ -57,5 +58,27 @@ public class UserServiceImpl implements UserService {
             return userList;
         }
         return null;
+    }
+
+    @Override
+    public boolean checkName(String name) {
+        if (null != name && name != "") {
+            User user = new User(name);
+            try {
+                List<User> selectUserResult = userDao.select(user);
+                if (selectUserResult != null) {
+                    throw new BusinessException("用户已经存在");
+                } else {
+                    return true;
+                }
+            } catch (BusinessException e) {
+                throw new BusinessException(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("服务器错误");
+            }
+        }
+        return false;
+
     }
 }

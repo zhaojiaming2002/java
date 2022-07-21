@@ -5,6 +5,7 @@ import net.microsoft.java.web.bean.entity.User;
 import net.microsoft.java.web.util.CustomerQueryRunner;
 import net.microsoft.java.web.util.DruidDataSourceUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +58,15 @@ public class CustomerQueryRunnerUserDaoImpl implements UserDao {
                 return userList;
             }
         }
-
+        if (user != null && user.getName() != null && user.getName() != "") {
+            String sql = "select id,name,password,create_date,update_date from jdbc_user where name = ?";
+            User queryResult = customerQueryRunner.queryForBean(sql, User.class, user.getName());
+            if (queryResult != null) {
+                List<User> userList = new ArrayList<>();
+                userList.add(queryResult);
+                return userList;
+            }
+        }
         return null;
     }
 
