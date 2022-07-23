@@ -30,7 +30,7 @@ public class LinkedList1<T> {
 
     // 头节点
     private Node head;
-    // 有几个元素
+    // 有几个元素~
     private int N;
 
     public LinkedList1() {
@@ -39,11 +39,11 @@ public class LinkedList1<T> {
     }
 
 
-    public int Count() {
+    public int count() {
         return N;
     }
 
-    public boolean IsEmpty() {
+    public boolean isEmpty() {
         return N == 0;
     }
 
@@ -112,8 +112,8 @@ public class LinkedList1<T> {
 
     public boolean contains(T e) {
         Node cur = head;
-        while (cur.next != null) {
-            if (cur.next.equals(e)) {
+        while (cur != null) {
+            if (cur.next.e.equals(e)) {
                 return true;
             }
             cur = cur.next;
@@ -121,11 +121,69 @@ public class LinkedList1<T> {
         return false;
     }
 
+
+    public T removeAt(int index) {
+        if (index < 0 || index >= N) {
+            throw new RuntimeException("非法越界");
+        }
+        if (index == 0) {
+            head = head.next;
+            N--;
+            return head.e;
+        } else {
+            Node pre = head;
+            for (int i = 0; i < index - 1; i++) {
+                pre = pre.next;
+            }
+            Node delNode = pre.next;
+            pre.next = delNode.next;
+            N--;
+            return delNode.e;
+
+        }
+    }
+
+
+    public T removeFirst() {
+        return removeAt(0);
+    }
+
+    public T removeLast() {
+        return removeAt(N - 1);
+    }
+
+
+    public T remove(T e) {
+        Node cur = head;
+        Node pre = null;
+        while (cur != null) {
+            if (cur.e.equals(e)) {
+                break;
+            }
+            pre = cur;
+            cur = cur.next;
+
+        }
+        if (cur != null && head != cur) {
+            pre.next = cur.next;
+            N--;
+            return cur.e;
+        } else if (cur == head && cur.equals(head)) {
+
+            T t = removeFirst();
+            return t;
+        } else {
+            return null;
+        }
+
+
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         Node cur = head;
-        for (int i = 0; i < N - 1; i++) {
+        for (int i = 0; i < N; i++) {
             stringBuilder.append(cur.e + "-->");
             cur = cur.next;
         }
